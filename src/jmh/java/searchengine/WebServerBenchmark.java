@@ -21,6 +21,8 @@ import org.openjdk.jmh.annotations.State;
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 public class WebServerBenchmark {
     WebServer server;
+    SearchEngine searchEngine;
+    FileReader fileReader;
     List<String> hitSearchTerms;
     List<String> missSearchTerms;
 
@@ -29,7 +31,10 @@ public class WebServerBenchmark {
 
     @Setup(Level.Trial)
     public void setup() {
+        searchEngine = new SearchEngine();
+        
         try {
+            fileReader = new FileReader(filename);
             var rnd = new Random();
             while (server == null) {
                 try {
@@ -46,6 +51,6 @@ public class WebServerBenchmark {
     @Benchmark
     public List<List<String>> measureAvgTime() throws InterruptedException {
         // Probably not a good idea to search for the same thing all the time... oh well
-        return server.getPages("denmark");
+        return searchEngine.searchPages("denmark", fileReader);
     }
 }

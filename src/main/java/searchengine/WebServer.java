@@ -21,8 +21,10 @@ public class WebServer {
 
   private FileReader fileReader;
   protected HttpServer server; // is this supposed to be private and use a getter method for webserver test?
+  private SearchEngine searchEngine;
 
   public WebServer(int port, String filename) throws IOException {
+    searchEngine = new SearchEngine();
     fileReader = new FileReader(filename);
     server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
     server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
@@ -43,7 +45,7 @@ public class WebServer {
   public void search(HttpExchange io) {
     var searchTerm = io.getRequestURI().getRawQuery().split("=")[1];
     var response = new ArrayList<String>();
-    for (var page : getPages(searchTerm)) {
+    for (var page : searchEngine.searchPages(searchTerm, fileReader)) {
       response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
         page.get(0).substring(6), page.get(1)));
     }
@@ -51,15 +53,6 @@ public class WebServer {
     respond(io, 200, "application/json", bytes);
   }
 
-  public List<List<String>> getPages(String searchTerm) {
-    var result = new ArrayList<List<String>>();
-    for (var page : fileReader.getPages()) {
-      if (page.contains(searchTerm)) {
-        result.add(page);
-      }
-    }
-    return result;
-  }
 
   public void respond(HttpExchange io, int code, String mime, byte[] response) {
     try {
