@@ -1,6 +1,5 @@
 data
 *.txt
-
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle,visualstudiocode
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,gradle,visualstudiocode
 
@@ -139,3 +138,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows
+.vscode/settings.json
