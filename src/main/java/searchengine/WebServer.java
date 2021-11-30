@@ -15,14 +15,14 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
 
 public class WebServer {
-  static final int PORT = 8080;
-  static final int BACKLOG = 0;
-  static final Charset CHARSET = StandardCharsets.UTF_8;
+  private static final int PORT = 8080;
+  private static final int BACKLOG = 0;
+  private static final Charset CHARSET = StandardCharsets.UTF_8;
 
   private FileReader fileReader;
-  HttpServer server;
+  protected HttpServer server; // is this supposed to be private and use a getter method for webserver test?
 
-  WebServer(int port, String filename) throws IOException {
+  public WebServer(int port, String filename) throws IOException {
     fileReader = new FileReader(filename);
     server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
     server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
@@ -40,7 +40,7 @@ public class WebServer {
     System.out.println("╰"+"─".repeat(msg.length())+"╯");
   }
   
-  void search(HttpExchange io) {
+  public void search(HttpExchange io) {
     var searchTerm = io.getRequestURI().getRawQuery().split("=")[1];
     var response = new ArrayList<String>();
     for (var page : getPages(searchTerm)) {
@@ -51,7 +51,7 @@ public class WebServer {
     respond(io, 200, "application/json", bytes);
   }
 
-  List<List<String>> getPages(String searchTerm) {
+  public List<List<String>> getPages(String searchTerm) {
     var result = new ArrayList<List<String>>();
     for (var page : fileReader.getPages()) {
       if (page.contains(searchTerm)) {
@@ -61,7 +61,7 @@ public class WebServer {
     return result;
   }
 
-  void respond(HttpExchange io, int code, String mime, byte[] response) {
+  public void respond(HttpExchange io, int code, String mime, byte[] response) {
     try {
       io.getResponseHeaders()
           .set("Content-Type", String.format("%s; charset=%s", mime, CHARSET.name()));

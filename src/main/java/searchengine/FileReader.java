@@ -10,7 +10,7 @@ import java.util.List;
 
 public class FileReader {
     
-    List<List<String>> pages = new ArrayList<>();
+    private List<List<String>> pages = new ArrayList<>();
 
     
     public FileReader(String filename) throws IOException{
@@ -33,7 +33,7 @@ public class FileReader {
 
 
     
-  byte[] getFile(String filename) {
+  public byte[] getFile(String filename) {
     try {
       return Files.readAllBytes(Paths.get(filename));
     } catch (IOException e) {
