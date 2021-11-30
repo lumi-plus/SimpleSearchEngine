@@ -19,32 +19,20 @@ public class WebServer {
   static final int BACKLOG = 0;
   static final Charset CHARSET = StandardCharsets.UTF_8;
 
-  List<List<String>> pages = new ArrayList<>();
+  private FileReader fileReader;
   HttpServer server;
 
   WebServer(int port, String filename) throws IOException {
-    try {
-      List<String> lines = Files.readAllLines(Paths.get(filename));
-      var lastIndex = lines.size();
-      for (var i = lines.size() - 1; i >= 0; --i) {
-        if (lines.get(i).startsWith("*PAGE")) {
-          pages.add(lines.subList(i, lastIndex));
-          lastIndex = i;
-        }
-      }
-    } catch (FileNotFoundException e) {
-      e.printStackTrace();
-    }
-    Collections.reverse(pages);
+    fileReader = new FileReader(filename);
     server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
-    server.createContext("/", io -> respond(io, 200, "text/html", getFile("web/index.html")));
+    server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
     server.createContext("/search", io -> search(io));
     server.createContext(
-        "/favicon.ico", io -> respond(io, 200, "image/x-icon", getFile("web/favicon.ico")));
+        "/favicon.ico", io -> respond(io, 200, "image/x-icon", fileReader.getFile("web/favicon.ico")));
     server.createContext(
-        "/code.js", io -> respond(io, 200, "application/javascript", getFile("web/code.js")));
+        "/code.js", io -> respond(io, 200, "application/javascript", fileReader.getFile("web/code.js")));
     server.createContext(
-        "/style.css", io -> respond(io, 200, "text/css", getFile("web/style.css")));
+        "/style.css", io -> respond(io, 200, "text/css", fileReader.getFile("web/style.css")));
     server.start();
     String msg = " WebServer running on http://localhost:" + port + " ";
     System.out.println("╭"+"─".repeat(msg.length())+"╮");
@@ -55,7 +43,7 @@ public class WebServer {
   void search(HttpExchange io) {
     var searchTerm = io.getRequestURI().getRawQuery().split("=")[1];
     var response = new ArrayList<String>();
-    for (var page : search(searchTerm)) {
+    for (var page : getPages(searchTerm)) {
       response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
         page.get(0).substring(6), page.get(1)));
     }
@@ -63,23 +51,14 @@ public class WebServer {
     respond(io, 200, "application/json", bytes);
   }
 
-  List<List<String>> search(String searchTerm) {
+  List<List<String>> getPages(String searchTerm) {
     var result = new ArrayList<List<String>>();
-    for (var page : pages) {
+    for (var page : fileReader.getPages()) {
       if (page.contains(searchTerm)) {
         result.add(page);
       }
     }
     return result;
-  }
-
-  byte[] getFile(String filename) {
-    try {
-      return Files.readAllBytes(Paths.get(filename));
-    } catch (IOException e) {
-      e.printStackTrace();
-      return new byte[0];
-    }
   }
 
   void respond(HttpExchange io, int code, String mime, byte[] response) {
