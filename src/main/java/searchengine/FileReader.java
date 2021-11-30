@@ -15,13 +15,13 @@ public class FileReader {
     try {
       List<String> lines = Files.readAllLines(Paths.get(filename));
       var lastIndex = lines.size();
-      for (var i = lines.size(); i >= 0; i--) {
+      for (var i = lines.size()-1; i >= 0; i--) {
         if (lines.get(i).startsWith("*PAGE")) {
           pages.add(lines.subList(i, lastIndex));
           lastIndex = i;
         }
       }
-      Collections.reverse(lines);
+      Collections.reverse(pages);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
