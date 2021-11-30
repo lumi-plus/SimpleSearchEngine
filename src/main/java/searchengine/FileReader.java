@@ -9,30 +9,23 @@ import java.util.Collections;
 import java.util.List;
 
 public class FileReader {
-    
-    private List<List<String>> pages = new ArrayList<>();
+  private List<List<String>> pages = new ArrayList<>();
 
-    
-    public FileReader(String filename) throws IOException{
-
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(filename));
-            var lastIndex = lines.size();
-            for (var i = lines.size() - 1; i >= 0; --i) {
-              if (lines.get(i).startsWith("*PAGE")) {
-                pages.add(lines.subList(i, lastIndex));
-                lastIndex = i;
-              }
-            }
-          } catch (FileNotFoundException e) {
-            e.printStackTrace();
-          }
-          Collections.reverse(pages);
-
+  public FileReader(String filename) throws IOException {
+    try {
+      List<String> lines = Files.readAllLines(Paths.get(filename));
+      var lastIndex = lines.size();
+      for (var i = 0; i < lines.size(); i++) {
+        if (lines.get(i).startsWith("*PAGE")) {
+          pages.add(lines.subList(i, lastIndex));
+          lastIndex = i;
+        }
+      }
+    } catch (FileNotFoundException e) {
+      e.printStackTrace();
     }
+  }
 
-
-    
   public byte[] getFile(String filename) {
     try {
       return Files.readAllBytes(Paths.get(filename));
@@ -42,11 +35,8 @@ public class FileReader {
     }
   }
 
-
-  public List<List<String>> getPages(){
-      return pages;
+  public List<List<String>> getPages() {
+    return pages;
   }
-
-
 
 }
