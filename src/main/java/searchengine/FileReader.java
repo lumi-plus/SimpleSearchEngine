@@ -14,14 +14,14 @@ public class FileReader {
   public FileReader(String filename) throws IOException {
     try {
       List<String> lines = Files.readAllLines(Paths.get(filename));
-      var lastIndex = lines.size();
-      for (var i = lines.size()-1; i >= 0; i--) {
+      var firstIndex = 0;
+      for (var i = 1; i < lines.size(); i++) {
         if (lines.get(i).startsWith("*PAGE")) {
-          pages.add(lines.subList(i, lastIndex));
-          lastIndex = i;
+          pages.add(lines.subList(firstIndex, i));
+          firstIndex = i;
         }
       }
-      Collections.reverse(pages);
+      //Collections.reverse(pages);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
