@@ -14,7 +14,7 @@ public class FileReader {
     try {
       List<String> lines = Files.readAllLines(Paths.get(filename));
       var firstIndex = 0;
-      for (var i = 1; i < lines.size(); i++) {
+      for (var i=1; i < lines.size(); i++) {
         if (lines.get(i).startsWith("*PAGE")) {
           pages.add(lines.subList(firstIndex, i));
           firstIndex = i;
