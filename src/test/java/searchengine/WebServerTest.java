@@ -20,14 +20,16 @@ import org.junit.jupiter.api.TestInstance;
 @TestInstance(Lifecycle.PER_CLASS)
 public class WebServerTest {
     private WebServer server = null;
+    private WebServer faultyServer = null;
 
     @BeforeAll
     public void setUp() {
         try {
             var rnd = new Random();
-            while (server == null) {
+            while (faultyServer == null && server == null) {
                 try {
                     server = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file.txt");
+                    faultyServer = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file-errors.txt");
                 } catch (BindException e) {
                 }
             }
@@ -39,7 +41,16 @@ public class WebServerTest {
     @AfterAll
     public void tearDown() {
         server.server.stop(0);
+        // faultyServer.server.stop(0);
+        // faultyServer = null;
         server = null;
+    }
+    @Test
+    public void lookupFaultyServer() {
+        String baseURL = String.format("http://localhost:%d/search?q=", faultyServer.server.getAddress().getPort());
+        
+        assertEquals("[]", 
+            httpGet(baseURL + " "));
     }
 
     @Test

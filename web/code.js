@@ -10,6 +10,7 @@ document.getElementById('searchbutton').onclick = () => {
                 let results = data.map((page) =>
                     `<li><a href="${page.url}">${page.title}</a></li>`)
                     .join("\n");
+                print(page.title);
                 document.getElementById("urllist").innerHTML = `<ul>${results}</ul>`;
             } else {
                 document.getElementById("responsesize").innerHTML =

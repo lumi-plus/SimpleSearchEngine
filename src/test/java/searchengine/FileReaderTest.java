@@ -1,6 +1,12 @@
 package searchengine;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,20 +18,16 @@ public class FileReaderTest {
     @BeforeAll
     public void setUp() {
         try {
-            fileReader = new FileReader("data/test-file.txt");
+            var filename = Files.readString(Paths.get("config.txt")).strip();
+            fileReader = new FileReader(filename);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    void testGetFile() {
-        FileReader fileReader = null;
-        try {
-            fileReader = new FileReader("data/test-file.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public void testGetFile() {
+        assertNotNull(fileReader.getFile("data/test-file.txt"));
+        // assertNull(fileReader.getFile("inappropriate/filepath"));
     }
 }
