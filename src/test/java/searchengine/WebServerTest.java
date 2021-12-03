@@ -60,6 +60,7 @@ class WebServerTest {
     }
 
     private String httpGet(String url) {
+        System.out.println("test");
         var uri = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder().uri(uri).GET().build();
