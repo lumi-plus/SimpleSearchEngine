@@ -6,6 +6,12 @@ public class WebPage {
     private String title;
     private String url;
     private List<String> content;
+
+    public WebPage(String url, String title, List<String> content) {
+        this.url = url;
+        this.title = title;
+        this.content = content;
+    }
     
     /**
      * returns the titel of the webpage

@@ -18,18 +18,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 @TestInstance(Lifecycle.PER_CLASS)
-class WebServerTest {
-    WebServer server = null;
+public class WebServerTest {
+    private WebServer server = null;
 
     @BeforeAll
-    void setUp() {
+    public void setUp() {
         try {
             var rnd = new Random();
             while (server == null) {
                 try {
                     server = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file.txt");
                 } catch (BindException e) {
-                    // port in use. Try again
                 }
             }
         } catch (IOException e) {
@@ -38,13 +37,13 @@ class WebServerTest {
     }
 
     @AfterAll
-    void tearDown() {
+    public void tearDown() {
         server.server.stop(0);
         server = null;
     }
 
     @Test
-    void lookupWebServer() {
+    public void lookupWebServer() {
         String baseURL = String.format("http://localhost:%d/search?q=", server.server.getAddress().getPort());
         
         assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]", 

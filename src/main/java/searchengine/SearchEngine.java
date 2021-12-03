@@ -8,10 +8,10 @@ import java.util.List;
  * returns a list "results" that contains hits, i.e. the number of search engine results for a specific query
  */
 public class SearchEngine {
-  public List<List<String>> searchPages(String searchTerm, FileReader fileReader) {
-    var result = new ArrayList<List<String>>();
+  public List<WebPage> searchPages(String searchTerm, FileReader fileReader) {
+    var result = new ArrayList<WebPage>();
     for (var page : fileReader.getPages()) {
-      if (page.contains(searchTerm)) {
+      if (page.getContent().contains(searchTerm)) {
         result.add(page);
       }
     }

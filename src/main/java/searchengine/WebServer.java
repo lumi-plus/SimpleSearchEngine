@@ -47,7 +47,9 @@ public class WebServer {
     var response = new ArrayList<String>();
     for (var page : searchEngine.searchPages(searchTerm, fileReader)) {
       response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
-          page.get(0).substring(6), page.get(1)));
+          page.getUrl(), page.getTitle()));
+      // response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
+      //     page.get(0).substring(6), page.get(1)));
     }
     var bytes = response.toString().getBytes(CHARSET);
     respond(io, 200, "application/json", bytes);
@@ -60,6 +62,7 @@ public class WebServer {
       io.sendResponseHeaders(200, response.length);
       io.getResponseBody().write(response);
     } catch (Exception e) {
+      e.printStackTrace();
     } finally {
       io.close();
     }

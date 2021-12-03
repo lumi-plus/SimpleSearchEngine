@@ -49,7 +49,7 @@ public class WebServerBenchmark {
     }
 
     @Benchmark
-    public List<List<String>> measureAvgTime() throws InterruptedException {
+    public List<WebPage> measureAvgTime() throws InterruptedException {
         // Probably not a good idea to search for the same thing all the time... oh well
         return searchEngine.searchPages("denmark", fileReader);
     }
