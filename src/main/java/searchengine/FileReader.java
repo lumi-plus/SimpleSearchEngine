@@ -20,7 +20,9 @@ public class FileReader {
           firstIndex = i;
         }
       }
-      System.out.println("END");
+      if (lines.size() > 3) {
+        System.out.println("END");
+      }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
