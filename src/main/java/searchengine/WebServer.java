@@ -66,6 +66,7 @@ public class WebServer {
   }
 
   public static void main(final String... args) throws IOException {
+    System.out.println("¡Hola!");
     var filename = Files.readString(Paths.get("config.txt")).strip();
     new WebServer(PORT, filename);
   }

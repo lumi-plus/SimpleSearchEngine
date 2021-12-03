@@ -20,6 +20,7 @@ public class FileReader {
           firstIndex = i;
         }
       }
+      System.out.println("END");
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
