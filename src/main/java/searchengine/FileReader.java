@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class FileReader {
@@ -17,13 +16,15 @@ public class FileReader {
     try {
       List<String> lines = Files.readAllLines(Paths.get(filename));
       var firstIndex = 0;
-      for (var i = 1; i < lines.size(); i++) {
+      for (var i=1; i < lines.size(); i++) {
         if (lines.get(i).startsWith("*PAGE")) {
           pages.add(lines.subList(firstIndex, i+1));
           firstIndex = i;
         }
       }
-      //Collections.reverse(pages);
+      if (lines.size() > 3) {
+        System.out.println("END");
+      }
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }

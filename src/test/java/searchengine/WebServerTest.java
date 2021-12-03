@@ -46,17 +46,23 @@ class WebServerTest {
     @Test
     void lookupWebServer() {
         String baseURL = String.format("http://localhost:%d/search?q=", server.server.getAddress().getPort());
+        
         assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]", 
             httpGet(baseURL + "word1"));
+
         assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}]",
             httpGet(baseURL + "word2"));
+
         assertEquals("[{\"url\": \"http://page2.com\", \"title\": \"title2\"}]", 
             httpGet(baseURL + "word3"));
+            
         assertEquals("[]", 
             httpGet(baseURL + "word4"));
     }
 
     private String httpGet(String url) {
+        System.out.println("test");
+        System.out.println("asd");
         var uri = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder().uri(uri).GET().build();
