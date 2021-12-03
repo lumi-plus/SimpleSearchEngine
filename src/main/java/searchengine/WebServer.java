@@ -37,22 +37,21 @@ public class WebServer {
         "/style.css", io -> respond(io, 200, "text/css", fileReader.getFile("web/style.css")));
     server.start();
     String msg = " WebServer running on http://localhost:" + port + " ";
-    System.out.println("╭"+"─".repeat(msg.length())+"╮");
-    System.out.println("│"+msg+"│");
-    System.out.println("╰"+"─".repeat(msg.length())+"╯");
+    System.out.println("╭" + "─".repeat(msg.length()) + "╮");
+    System.out.println("│" + msg + "│");
+    System.out.println("╰" + "─".repeat(msg.length()) + "╯");
   }
-  
+
   public void search(HttpExchange io) {
     var searchTerm = io.getRequestURI().getRawQuery().split("=")[1];
     var response = new ArrayList<String>();
     for (var page : searchEngine.searchPages(searchTerm, fileReader)) {
       response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
-        page.get(0).substring(6), page.get(1)));
+          page.get(0).substring(6), page.get(1)));
     }
     var bytes = response.toString().getBytes(CHARSET);
     respond(io, 200, "application/json", bytes);
   }
-
 
   public void respond(HttpExchange io, int code, String mime, byte[] response) {
     try {

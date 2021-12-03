@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class FileReader {
@@ -21,7 +20,6 @@ public class FileReader {
           firstIndex = i;
         }
       }
-      //Collections.reverse(pages);
     } catch (FileNotFoundException e) {
       e.printStackTrace();
     }
