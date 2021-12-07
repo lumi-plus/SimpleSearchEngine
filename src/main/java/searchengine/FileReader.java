@@ -18,6 +18,7 @@ public class FileReader {
             List<String> lines = Files.readAllLines(Paths.get(filename));
             var firstIndex = 0;
             for (var i = 1; i < lines.size(); i++) {
+                
                 if (lines.get(i).startsWith("*PAGE")) {
                     String url = lines.get(firstIndex).substring("*PAGE:".length());
                     String title = lines.get(firstIndex + 1);
@@ -31,6 +32,7 @@ public class FileReader {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
+        System.out.println(pages.size());
     }
 
     /**

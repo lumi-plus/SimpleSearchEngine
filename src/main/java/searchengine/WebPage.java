@@ -18,21 +18,21 @@ public class WebPage {
      * @return
      */
     public String getTitle() {
-        return title;
+        return this.title;
     }
     /**
      * returns the content of the webpage
      * @return
      */
     public List<String> getContent() {
-        return content;
+        return this.content;
     }
     /**
      * returns the URL of the webpage
      * @return
      */
     public String getUrl() {
-        return url;
+        return this.url;
     }
     /**
      * sets the content

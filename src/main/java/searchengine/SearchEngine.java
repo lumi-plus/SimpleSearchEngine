@@ -28,13 +28,17 @@ public class SearchEngine {
     }
 
     public void search(HttpExchange io) {
-        var searchTerm = io.getRequestURI().getRawQuery().split("=")[1];
+        var query = io.getRequestURI().getRawQuery().split("=")[1];
         var response = new ArrayList<String>();
-        for (var page : fetchPages(searchTerm, fileReader)) {
-            response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
+        String[] searchTerms = query.split("OR ");
+        for(String searchTerm : searchTerms){
+            for (var page : fetchPages(searchTerm, fileReader)) {
+                response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
+            }
         }
         var bytes = response.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
     }
+
 }
