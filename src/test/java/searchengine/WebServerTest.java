@@ -2,7 +2,6 @@
 package searchengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -41,10 +40,11 @@ public class WebServerTest {
     @AfterAll
     public void tearDown() {
         server.server.stop(0);
-        // faultyServer.server.stop(0);
-        // faultyServer = null;
+        faultyServer.server.stop(0);
+        faultyServer = null;
         server = null;
     }
+
     @Test
     public void lookupFaultyServer() {
         String baseURL = String.format("http://localhost:%d/search?q=", faultyServer.server.getAddress().getPort());
@@ -71,8 +71,6 @@ public class WebServerTest {
     }
 
     private String httpGet(String url) {
-        System.out.println("test");
-        System.out.println("asd");
         var uri = URI.create(url);
         var client = HttpClient.newHttpClient();
         var request = HttpRequest.newBuilder().uri(uri).GET().build();
