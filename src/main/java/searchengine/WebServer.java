@@ -25,8 +25,8 @@ public class WebServer {
     private SearchEngine searchEngine;
 
     public WebServer(int port, String filename) throws IOException {
-        searchEngine = new SearchEngine(this);
         fileReader = new FileReader(filename);
+        searchEngine = new SearchEngine(this, fileReader);
         server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
         server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
         server.createContext("/search", io -> searchEngine.search(io));

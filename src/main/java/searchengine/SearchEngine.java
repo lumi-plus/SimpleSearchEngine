@@ -12,13 +12,14 @@ public class SearchEngine {
     private FileReader fileReader;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public SearchEngine(WebServer server) {
+    public SearchEngine(WebServer server, FileReader fileReader) {
         this.server = server;
+        this.fileReader = fileReader;
     }
 
-    public List<WebPage> fetchPages(String searchTerm, FileReader fileReader) {
-        this.fileReader = fileReader;
+    public List<WebPage> fetchPages(String searchTerm) {
         var result = new ArrayList<WebPage>();
+        System.out.println("fileReader.getPages()size(): "+fileReader.getPages().size());
         for (var page : fileReader.getPages()) {
             if (page.getContent().contains(searchTerm)) {
                 result.add(page);
@@ -32,7 +33,7 @@ public class SearchEngine {
         var response = new ArrayList<String>();
         String[] searchTerms = query.split("OR");
         for(String searchTerm : searchTerms){
-            for (var page : fetchPages(searchTerm, fileReader)) {
+            for (var page : fetchPages(searchTerm)) {
                 response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
             }
