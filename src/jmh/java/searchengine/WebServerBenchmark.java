@@ -31,7 +31,6 @@ public class WebServerBenchmark {
 
     @Setup(Level.Trial)
     public void setup() {
-        searchEngine = new SearchEngine();
         
         try {
             fileReader = new FileReader(filename);
@@ -39,6 +38,7 @@ public class WebServerBenchmark {
             while (server == null) {
                 try {
                     server = new WebServer(rnd.nextInt(60000) + 1024, filename);
+                    searchEngine = new SearchEngine(server, fileReader);
                 } catch (BindException e) {
                     // port in use. Try again
                 }
@@ -51,6 +51,6 @@ public class WebServerBenchmark {
     @Benchmark
     public List<WebPage> measureAvgTime() throws InterruptedException {
         // Probably not a good idea to search for the same thing all the time... oh well
-        return searchEngine.searchPages("denmark", fileReader);
+        return searchEngine.fetchPages("denmark");
     }
 }
