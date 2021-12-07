@@ -39,7 +39,6 @@ public class SearchEngine {
         Set<String> searchTerms = new HashSet<>();
         Collections.addAll(searchTerms, query.split("%20OR%20"));
         for(String searchTerm : searchTerms) {
-            System.out.println("searchTerm: "+searchTerm);
             for (WebPage page : fetchPages(searchTerm)) {
                 response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
