@@ -8,12 +8,12 @@ import java.nio.charset.StandardCharsets;
 import com.sun.net.httpserver.HttpExchange;
 
 public class SearchEngine {
-    private HttpExchange io;
+    private WebServer server;
     private FileReader fileReader;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public SearchEngine(HttpExchange io) {
-        this.io = io;
+    public SearchEngine(WebServer server) {
+        this.server = server;
     }
 
     public List<WebPage> searchPages(String searchTerm, FileReader fileReader) {
@@ -35,6 +35,6 @@ public class SearchEngine {
                     page.getUrl(), page.getTitle()));
         }
         var bytes = response.toString().getBytes(CHARSET);
-        respond(io, 200, "application/json", bytes);
+        server.respond(io, 200, "application/json", bytes);
     }
 }
