@@ -16,7 +16,7 @@ public class SearchEngine {
         this.io = io;
     }
 
-    public List<WebPage> searchPages(String searchTerm, FileReader fileReader) {
+    public List<WebPage> fetchPages(String searchTerm, FileReader fileReader) {
         this.fileReader = fileReader;
         var result = new ArrayList<WebPage>();
         for (var page : fileReader.getPages()) {
@@ -30,7 +30,7 @@ public class SearchEngine {
     public void search(HttpExchange io) {
         var searchTerm = io.getRequestURI().getRawQuery().split("=")[1];
         var response = new ArrayList<String>();
-        for (var page : searchPages(searchTerm, fileReader)) {
+        for (var page : fetchPages(searchTerm, fileReader)) {
             response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
         }
