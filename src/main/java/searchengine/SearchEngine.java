@@ -30,7 +30,7 @@ public class SearchEngine {
     public void search(HttpExchange io) {
         var query = io.getRequestURI().getRawQuery().split("=")[1];
         var response = new ArrayList<String>();
-        String[] searchTerms = query.split("OR ");
+        String[] searchTerms = query.split("OR");
         for(String searchTerm : searchTerms){
             for (var page : fetchPages(searchTerm, fileReader)) {
                 response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",

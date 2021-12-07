@@ -32,7 +32,6 @@ public class FileReader {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        System.out.println(pages.size());
     }
 
     /**
