@@ -17,7 +17,7 @@ public class FileReader {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
             var firstIndex = 0;
-            for (var i = 1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 
                 if (lines.get(i).startsWith("*PAGE")) {
                     String url = lines.get(firstIndex).substring("*PAGE:".length());

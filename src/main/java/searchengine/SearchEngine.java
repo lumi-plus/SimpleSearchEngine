@@ -21,9 +21,9 @@ public class SearchEngine {
     }
 
     public List<WebPage> fetchPages(String searchTerm) {
-        var result = new ArrayList<WebPage>();
+        ArrayList<WebPage> result = new ArrayList<WebPage>();
         System.out.println("fileReader.getPages()size(): "+fileReader.getPages().size());
-        for (var page : fileReader.getPages()) {
+        for (WebPage page : fileReader.getPages()) {
             if (page.getContent().contains(searchTerm)) {
                 result.add(page);
             }
@@ -32,19 +32,18 @@ public class SearchEngine {
     }
 
     public void search(HttpExchange io) {
-        int count = 0;
-        var query = io.getRequestURI().getRawQuery().split("=")[1];
-        var response = new ArrayList<String>();
+        String query = io.getRequestURI().getRawQuery().split("=")[1];
+        Set<String> response = new HashSet<String>();
         Set<String> searchTerms = new HashSet<>();
         Collections.addAll(searchTerms, query.split("%20OR%20"));
         for(String searchTerm : searchTerms) {
             System.out.println("searchTerm: "+searchTerm);
-            for (var page : fetchPages(searchTerm)) {
+            for (WebPage page : fetchPages(searchTerm)) {
                 response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
             }
         }
-        var bytes = response.toString().getBytes(CHARSET);
+        byte[] bytes = response.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
     }
 

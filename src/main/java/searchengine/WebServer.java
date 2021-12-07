@@ -57,7 +57,7 @@ public class WebServer {
     }
 
     public static void main(final String... args) throws IOException {
-        var filename = Files.readString(Paths.get("config.txt")).strip();
+        String filename = Files.readString(Paths.get("config.txt")).strip();
         new WebServer(PORT, filename);
     }
 }
