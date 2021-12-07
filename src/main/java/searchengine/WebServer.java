@@ -26,7 +26,8 @@ public class WebServer {
 
     public WebServer(int port, String filename) throws IOException {
         fileReader = new FileReader(filename);
-        searchEngine = new SearchEngine(this, fileReader);
+        InvertedIndex ii = new InvertedIndex(fileReader.getPages());
+        searchEngine = new SearchEngine(this, fileReader, ii);
         server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
         server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
         server.createContext("/search", io -> searchEngine.search(io));

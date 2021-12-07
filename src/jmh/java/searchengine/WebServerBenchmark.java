@@ -38,7 +38,7 @@ public class WebServerBenchmark {
             while (server == null) {
                 try {
                     server = new WebServer(rnd.nextInt(60000) + 1024, filename);
-                    searchEngine = new SearchEngine(server, fileReader);
+                    // searchEngine = new SearchEngine(server, fileReader);
                 } catch (BindException e) {
                     // port in use. Try again
                 }

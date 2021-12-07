@@ -13,22 +13,24 @@ import com.sun.net.httpserver.HttpExchange;
 public class SearchEngine {
     private WebServer server;
     private FileReader fileReader;
+    private InvertedIndex ii; 
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public SearchEngine(WebServer server, FileReader fileReader) {
+    public SearchEngine(WebServer server, FileReader fileReader, InvertedIndex ii) {
         this.server = server;
         this.fileReader = fileReader;
+        this.ii = ii;
     }
 
     public List<WebPage> fetchPages(String searchTerm) {
-        ArrayList<WebPage> result = new ArrayList<WebPage>();
-        System.out.println("fileReader.getPages()size(): "+fileReader.getPages().size());
-        for (WebPage page : fileReader.getPages()) {
-            if (page.getContent().contains(searchTerm)) {
-                result.add(page);
-            }
-        }
-        return result;
+        // ArrayList<WebPage> result = new ArrayList<>();
+        // for (WebPage page : fileReader.getPages()) {
+        //     if (page.getContent().contains(searchTerm)) {
+        //         result.add(page);
+        //     }
+        // }
+        // return result;
+        return ii.getPages(searchTerm);
     }
 
     public void search(HttpExchange io) {
