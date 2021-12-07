@@ -1,9 +1,12 @@
 package searchengine;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -29,10 +32,13 @@ public class SearchEngine {
     }
 
     public void search(HttpExchange io) {
+        int count = 0;
         var query = io.getRequestURI().getRawQuery().split("=")[1];
         var response = new ArrayList<String>();
-        String[] searchTerms = query.split("OR");
-        for(String searchTerm : searchTerms){
+        Set<String> searchTerms = new HashSet<>();
+        Collections.addAll(searchTerms, query.split("%20OR%20"));
+        for(String searchTerm : searchTerms) {
+            System.out.println("searchTerm: "+searchTerm);
             for (var page : fetchPages(searchTerm)) {
                 response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
