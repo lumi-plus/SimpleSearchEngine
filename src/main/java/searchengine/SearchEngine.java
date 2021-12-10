@@ -34,35 +34,42 @@ public class SearchEngine {
     }
 
     public void search(HttpExchange io) {
-        String query = io.getRequestURI().getRawQuery().split("=")[1];
-        List<Set<String>> responses = new ArrayList<>();
-        Set<String> searchTerms = new HashSet<>();
-        Set<String> allResponses = new HashSet<>();
-        // query = query.replace("%20", " ");
-        Collections.addAll(searchTerms, query.split("%20"));
-        // Collections.addAll(searchTerms, query.split(" OR "));
-        for(String searchTerm : searchTerms) {
-            Set<String> response = new HashSet<>();
-            searchTerm = searchTerm.toLowerCase();
-            System.out.println("query: "+searchTerm);
-            for (WebPage page : fetchPages(searchTerm)) {
-                response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
-                    page.getUrl(), page.getTitle()));
-                    allResponses.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
-                    page.getUrl(), page.getTitle()));
+        String fullQuery = io.getRequestURI().getRawQuery().split("=")[1];
+        Set<String> finalResponse = new HashSet<>();
+        Set<String> queries = new HashSet<>();
+        Collections.addAll(queries, fullQuery.split("%20OR%20")); 
+        for (String query : queries) {
+            List<Set<String>> responses = new ArrayList<>();
+            Set<String> searchTerms = new HashSet<>();
+            Set<String> allResponses = new HashSet<>();
+            // query = query.replace("%20", " ");
+            Collections.addAll(searchTerms, query.split("%20"));
+            // Collections.addAll(searchTerms, query.split(" OR "));
+            for(String searchTerm : searchTerms) {
+                Set<String> response = new HashSet<>();
+                searchTerm = searchTerm.toLowerCase();
+                System.out.println("query: "+searchTerm);
+                for (WebPage page : fetchPages(searchTerm)) {
+                    response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
+                        page.getUrl(), page.getTitle()));
+                        allResponses.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
+                        page.getUrl(), page.getTitle()));
+                }
+                responses.add(response);
+                
             }
-            responses.add(response);
-            
-        }
-        Set<String> response = new HashSet<>(allResponses);
-        for (Set<String> r1 : responses){
-            for (String webpage : allResponses){
-                if (!r1.contains(webpage)){
-                    response.remove(webpage);
+            Set<String> response = new HashSet<>(allResponses);
+            for (Set<String> r1 : responses){
+                for (String webpage : allResponses){
+                    if (!r1.contains(webpage)){
+                        response.remove(webpage);
+                    }
                 }
             }
+            // String[] a = response.toArray(new String[0]);
+            Collections.addAll(finalResponse, response.toArray(new String[0]));
         }
-        byte[] bytes = response.toString().getBytes(CHARSET);
+        byte[] bytes = finalResponse.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
     }
 
