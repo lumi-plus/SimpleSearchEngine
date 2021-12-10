@@ -14,9 +14,6 @@ public class InvertedIndex {
             List<String> content = page.getContent();
             for (String word : content) {
                 if (invertedIndex.containsKey(word)) {
-                    // var p = invertedIndex.get(word);
-                    // p.add(page);
-                    // invertedIndex.put(word, p);
                     invertedIndex.get(word).add(page);
                 } else {
                     List<WebPage> p = new ArrayList<>();
@@ -28,10 +25,8 @@ public class InvertedIndex {
     }
 
     public List<WebPage> getPages(String word) {
+        if (!invertedIndex.containsKey(word))
+            return new ArrayList<>();
         return invertedIndex.get(word);
     }
-
-    // public Map<String, List<WebPage>> getInvertedIndex() {
-    //     return invertedIndex;
-    // }
 }
