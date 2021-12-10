@@ -23,28 +23,43 @@ public class SearchEngine {
     }
 
     public List<WebPage> fetchPages(String searchTerm) {
-        List<WebPage> result = new ArrayList<>();
-        for (WebPage page : fileReader.getPages()) {
-            if (page.getContent().contains(searchTerm)) {
-                result.add(page);
-            }
-        }
-        return result;
-        // return ii.getPages(searchTerm);
+        // List<WebPage> result = new ArrayList<>();
+        // for (WebPage page : fileReader.getPages()) {
+        //     if (page.getContent().contains(searchTerm)) {
+        //         result.add(page);
+        //     }
+        // }
+        // return result;
+        return ii.getPages(searchTerm);
     }
 
     public void search(HttpExchange io) {
         String query = io.getRequestURI().getRawQuery().split("=")[1];
-        Set<String> response = new HashSet<>();
+        List<Set<String>> responses = new ArrayList<>();
         Set<String> searchTerms = new HashSet<>();
-        query = query.replace("%20", " ");
-        Collections.addAll(searchTerms, query.split(" OR "));
+        Set<String> allResponses = new HashSet<>();
+        // query = query.replace("%20", " ");
+        Collections.addAll(searchTerms, query.split("%20"));
+        // Collections.addAll(searchTerms, query.split(" OR "));
         for(String searchTerm : searchTerms) {
+            Set<String> response = new HashSet<>();
             searchTerm = searchTerm.toLowerCase();
             System.out.println("query: "+searchTerm);
             for (WebPage page : fetchPages(searchTerm)) {
                 response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
+                    allResponses.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
+                    page.getUrl(), page.getTitle()));
+            }
+            responses.add(response);
+            
+        }
+        Set<String> response = new HashSet<>(allResponses);
+        for (Set<String> r1 : responses){
+            for (String webpage : allResponses){
+                if (!r1.contains(webpage)){
+                    response.remove(webpage);
+                }
             }
         }
         byte[] bytes = response.toString().getBytes(CHARSET);
