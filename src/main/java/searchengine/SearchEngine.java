@@ -46,6 +46,7 @@ public class SearchEngine {
                 response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     page.getUrl(), page.getTitle()));
             }
+            
         }
         byte[] bytes = response.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
