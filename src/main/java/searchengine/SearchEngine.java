@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.sun.net.httpserver.HttpExchange;
 
@@ -16,9 +17,11 @@ public class SearchEngine {
     }
 
     public void search(HttpExchange io, InvertedIndex invertedIndex) {
-        String fullQuery = io.getRequestURI().getRawQuery().split("=")[1];
-        QueryHandler queryHandler = new QueryHandler(fullQuery, invertedIndex);
+        String query = io.getRequestURI().getRawQuery().split("=")[1];
+        QueryHandler queryHandler = new QueryHandler(query, invertedIndex);
         List<WebPage> searchResults = queryHandler.getSearchResults();
+        TFIDF tfidf = new TFIDF(searchResults, query);
+        Map<WebPage, Integer> rankedResults = tfidf.getRankedResults();
         List<String> searchResponse = getSearchResponse(searchResults);
         byte[] bytes = searchResponse.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);

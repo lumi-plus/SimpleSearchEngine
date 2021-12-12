@@ -1,6 +1,16 @@
 package searchengine;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class TFIDF {
+    private Map<WebPage, Integer> rankedPages;
+
+    public TFIDF(List<WebPage> pages, String term) {
+        rankedPages = new HashMap<>();
+    }
+
     public double termFrequency(String term, List<String> document) {
         double count = 0;
         for (String word : document) {
@@ -28,5 +38,9 @@ public class TFIDF {
         double tf = termFrequency(term, document.getContent());
         double idf = inverseDocumentFrequency(term, documents);
         return tf*idf;
+    }
+
+    public Map<WebPage, Integer> getRankedResults() {
+        return rankedPages;
     }
 }
