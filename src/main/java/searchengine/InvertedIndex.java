@@ -25,8 +25,9 @@ public class InvertedIndex {
     }
 
     public List<WebPage> getPages(String word) {
-        if (!invertedIndex.containsKey(word))
+        if (!invertedIndex.containsKey(word)) {
             return new ArrayList<>();
+        }
         return invertedIndex.get(word);
     }
 }

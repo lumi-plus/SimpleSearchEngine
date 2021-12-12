@@ -35,7 +35,6 @@ public class SearchEngine {
             for (String searchTerm : searchTerms) {
                 Set<String> response = new HashSet<>();
                 searchTerm = searchTerm.toLowerCase();
-                System.out.println("query: " + searchTerm);
                 for (WebPage page : getPages(searchTerm)) {
                     response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                             page.getUrl(), page.getTitle()));
@@ -53,8 +52,6 @@ public class SearchEngine {
                 }
             }
             Collections.addAll(searchResults, tmp.toArray(new String[0]));
-            System.out.println("Result 1: "+searchResults.get(0));
-            System.out.println("Result 2: "+searchResults.get(1));
         }
         byte[] bytes = searchResults.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
