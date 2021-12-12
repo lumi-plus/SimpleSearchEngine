@@ -1,16 +1,11 @@
 package searchengine;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetSocketAddress;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -59,6 +54,8 @@ public class WebServer {
 
     public static void main(final String... args) throws IOException {
         String filename = Files.readString(Paths.get("config.txt")).strip();
+        FileReader fileReader = new FileReader(filename);
+        InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
         new WebServer(PORT, filename);
     }
 }
