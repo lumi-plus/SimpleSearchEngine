@@ -34,14 +34,14 @@ public class QueryHandler {
         }
     }
 
-    public List<String> getSearchResponse() {
-        List<String> response = new ArrayList<>();
-        for (WebPage page : getSearchResults()) {
-            response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
-                    page.getUrl(), page.getTitle()));
-        }
-        return response;
-    }
+    // public List<String> getSearchResponse() {
+    //     List<String> response = new ArrayList<>();
+    //     for (WebPage page : getSearchResults()) {
+    //         response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
+    //                 page.getUrl(), page.getTitle()));
+    //     }
+    //     return response;
+    // }
 
     public List<WebPage> getSearchResults() {
         return searchResults;
