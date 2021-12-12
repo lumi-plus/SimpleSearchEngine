@@ -20,10 +20,10 @@ public class WebServer {
     public WebServer(int port, String filename) throws IOException {
         FileReader fileReader = new FileReader(filename);
         InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
-        SearchEngine searchEngine = new SearchEngine(this, invertedIndex);
+        SearchEngine searchEngine = new SearchEngine(this);
         server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
         server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
-        server.createContext("/search", io -> searchEngine.search(io));
+        server.createContext("/search", io -> searchEngine.search(io, invertedIndex));
         server.createContext(
                 "/favicon.ico", io -> respond(io, 200, "image/x-icon", fileReader.getFile("web/favicon.ico")));
         server.createContext(
