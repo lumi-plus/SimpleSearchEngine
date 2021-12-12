@@ -1,14 +1,32 @@
 package searchengine;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 public class TFIDF {
-    private Map<WebPage, Integer> rankedPages;
+    private List<WebPage> rankedPages;
 
     public TFIDF(List<WebPage> pages, String term) {
-        rankedPages = new HashMap<>();
+        Map<WebPage, Double> rankMapping = new HashMap<>();
+        for (WebPage page : pages) {
+            rankMapping.put(page, computeTFID(term, page, pages));
+        }
+        rankedPages = sortRanking(rankMapping);
+    }
+
+    public List<WebPage> sortRanking(Map<WebPage, Double> map) {
+        Map<WebPage, Double> sortedMap = map.entrySet().stream()
+                .sorted(Entry.comparingByValue(Comparator.reverseOrder()))
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
+                        (e2, e1) -> e2, LinkedHashMap::new));
+        return new ArrayList<>(sortedMap.keySet());
+        
     }
 
     public double termFrequency(String term, List<String> document) {
@@ -18,12 +36,12 @@ public class TFIDF {
                 count++;
             }
         }
-        return count/document.size();
+        return count / document.size();
     }
 
     public double inverseDocumentFrequency(String term, List<WebPage> documents) {
         double count = 0;
-        for (WebPage document: documents) {
+        for (WebPage document : documents) {
             for (String word : document.getContent()) {
                 if (word.equals(term)) {
                     count++;
@@ -31,16 +49,20 @@ public class TFIDF {
                 }
             }
         }
-        return count/documents.size();
+        return count / documents.size();
     }
 
-    public double getTFID(String term, WebPage document, List<WebPage> documents) {
+    public double computeTFID(String term, WebPage document, List<WebPage> documents) {
         double tf = termFrequency(term, document.getContent());
         double idf = inverseDocumentFrequency(term, documents);
-        return tf*idf;
+        return tf * idf;
     }
 
-    public Map<WebPage, Integer> getRankedResults() {
+    public List<WebPage> getRankedResults() {
         return rankedPages;
     }
+
+    // public Map<WebPage, Double> getRankedResults() {
+    // return rankedPages;
+    // }
 }

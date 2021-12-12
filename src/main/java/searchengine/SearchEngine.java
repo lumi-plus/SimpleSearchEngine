@@ -21,8 +21,10 @@ public class SearchEngine {
         QueryHandler queryHandler = new QueryHandler(query, invertedIndex);
         List<WebPage> searchResults = queryHandler.getSearchResults();
         TFIDF tfidf = new TFIDF(searchResults, query);
-        Map<WebPage, Integer> rankedResults = tfidf.getRankedResults();
-        List<String> searchResponse = getSearchResponse(searchResults);
+        List<WebPage> rankedResults = tfidf.getRankedResults();
+        // Map<WebPage, Double> rankedResults = tfidf.getRankedResults();
+        // List<String> searchResponse = getSearchResponse(searchResults);
+        List<String> searchResponse = getSearchResponse(rankedResults);
         byte[] bytes = searchResponse.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
     }
@@ -35,5 +37,14 @@ public class SearchEngine {
         }
         return response;
     }
+
+    // public List<String> getSearchResponse(List<WebPage> pages) {
+    //     List<String> response = new ArrayList<>();
+    //     for (WebPage page : pages) {
+    //         response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
+    //                 page.getUrl(), page.getTitle()));
+    //     }
+    //     return response;
+    // }
 
 }
