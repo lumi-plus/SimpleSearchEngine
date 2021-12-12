@@ -17,7 +17,7 @@ public class SearchEngine {
     public void search(HttpExchange io, InvertedIndex invertedIndex) {
         String fullQuery = io.getRequestURI().getRawQuery().split("=")[1];
         QueryHandler queryHandler = new QueryHandler(fullQuery, invertedIndex);
-        List<String> searchResults = queryHandler.getSearchResults();
+        List<String> searchResults = queryHandler.getSearchResponse();
         byte[] bytes = searchResults.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
     }
