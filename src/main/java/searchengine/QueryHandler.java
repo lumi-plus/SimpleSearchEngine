@@ -18,26 +18,19 @@ public class QueryHandler {
                 Set<WebPage> response = new HashSet<>();
                 searchTerm = searchTerm.toLowerCase();
                 for (WebPage page : invertedIndex.getPages(searchTerm)) {
-                    // response.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
-                    // page.getUrl(), page.getTitle()));
-                    // allResponses.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
-                    // page.getUrl(), page.getTitle()));
                     response.add(page);
                     allResponses.add(page);
                 }
                 responses.add(response);
             }
-            // List<WebPage> tmp = new ArrayList<>(allResponses);
             searchResults = new ArrayList<>(allResponses);
             for (Set<WebPage> response : responses) {
-                for (WebPage webPage : allResponses) {
-                    if (!response.contains(webPage)) {
-                        // tmp.remove(webpage);
-                        searchResults.remove(webPage);
+                for (WebPage page : allResponses) {
+                    if (!response.contains(page)) {
+                        searchResults.remove(page);
                     }
                 }
             }
-            // Collections.addAll(searchResults, tmp.toArray(new String[0]));
         }
     }
 
