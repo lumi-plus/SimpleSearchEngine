@@ -24,6 +24,7 @@ public class QueryHandler {
                     // allResponses.add(String.format("{\"url\": \"%s\", \"title\": \"%s\"}",
                     // page.getUrl(), page.getTitle()));
                     response.add(page);
+                    allResponses.add(page);
                 }
                 responses.add(response);
             }
