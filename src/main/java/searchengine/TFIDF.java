@@ -61,8 +61,4 @@ public class TFIDF {
     public List<WebPage> getRankedResults() {
         return rankedPages;
     }
-
-    // public Map<WebPage, Double> getRankedResults() {
-    // return rankedPages;
-    // }
 }
