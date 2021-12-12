@@ -10,7 +10,6 @@ public class QueryHandler {
 
     public QueryHandler(String fullQuery, InvertedIndex invertedIndex) {
         String[] queries = fullQuery.split("%20OR%20");
-        searchResults = new ArrayList<>();
         for (String query : queries) {
             List<Set<WebPage>> responses = new ArrayList<>();
             Set<WebPage> allResponses = new HashSet<>();
@@ -29,6 +28,7 @@ public class QueryHandler {
                 responses.add(response);
             }
             // List<WebPage> tmp = new ArrayList<>(allResponses);
+            searchResults = new ArrayList<>(allResponses);
             for (Set<WebPage> response : responses) {
                 for (WebPage webPage : allResponses) {
                     if (!response.contains(webPage)) {
