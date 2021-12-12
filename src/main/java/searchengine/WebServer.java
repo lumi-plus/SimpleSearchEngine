@@ -15,14 +15,12 @@ public class WebServer {
     private static final int BACKLOG = 0;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    private FileReader fileReader;
-    protected HttpServer server; // is this supposed to be private and use a getter method for webserver test?
-    private SearchEngine searchEngine;
+    private HttpServer server;
 
     public WebServer(int port, String filename) throws IOException {
-        fileReader = new FileReader(filename);
-        InvertedIndex ii = new InvertedIndex(fileReader.getPages());
-        searchEngine = new SearchEngine(this, fileReader, ii);
+        FileReader fileReader = new FileReader(filename);
+        InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
+        SearchEngine searchEngine = new SearchEngine(this, invertedIndex);
         server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
         server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
         server.createContext("/search", io -> searchEngine.search(io));
@@ -52,10 +50,12 @@ public class WebServer {
         }
     }
 
+    public HttpServer getServer() {
+        return server;
+    }
+
     public static void main(final String... args) throws IOException {
         String filename = Files.readString(Paths.get("config.txt")).strip();
-        FileReader fileReader = new FileReader(filename);
-        InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
         new WebServer(PORT, filename);
     }
 }

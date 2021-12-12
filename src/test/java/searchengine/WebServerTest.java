@@ -39,15 +39,15 @@ public class WebServerTest {
 
     @AfterAll
     public void tearDown() {
-        server.server.stop(0);
-        faultyServer.server.stop(0);
+        server.getServer().stop(0);
+        faultyServer.getServer().stop(0);
         faultyServer = null;
         server = null;
     }
 
     @Test
     public void lookupFaultyServer() {
-        String baseURL = String.format("http://localhost:%d/search?q=", faultyServer.server.getAddress().getPort());
+        String baseURL = String.format("http://localhost:%d/search?q=", faultyServer.getServer().getAddress().getPort());
         
         assertEquals("[]", 
             httpGet(baseURL + " "));
@@ -55,7 +55,7 @@ public class WebServerTest {
 
     @Test
     public void lookupWebServer() {
-        String baseURL = String.format("http://localhost:%d/search?q=", server.server.getAddress().getPort());
+        String baseURL = String.format("http://localhost:%d/search?q=", server.getServer().getAddress().getPort());
         
         assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]", 
             httpGet(baseURL + "word1"));
