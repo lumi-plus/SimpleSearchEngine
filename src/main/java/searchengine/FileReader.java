@@ -10,9 +10,6 @@ import java.util.List;
 public class FileReader {
     private List<WebPage> pages = new ArrayList<>();
 
-    // consider making an extra method instead of a constructor for testability
-    // try clause and each catch clause must be executed
-    // for loop: 0, 1 and more iterations
     public FileReader(String filename) throws IOException {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
