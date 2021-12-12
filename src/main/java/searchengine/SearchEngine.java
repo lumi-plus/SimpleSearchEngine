@@ -12,7 +12,6 @@ import com.sun.net.httpserver.HttpExchange;
 
 public class SearchEngine {
     private WebServer server;
-    // private InvertedIndex invertedIndex;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     public SearchEngine(WebServer server) {
