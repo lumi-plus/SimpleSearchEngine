@@ -21,6 +21,7 @@ public class WebServer {
     private HttpServer server;
 
     public WebServer(int port, String filename) throws IOException {
+        System.out.println("filename: "+filename);
         FileReader fileReader = new FileReader(filename);
         InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
         QueryHandler queryHandler = new QueryHandler(invertedIndex);

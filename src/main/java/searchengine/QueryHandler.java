@@ -15,6 +15,7 @@ public class QueryHandler {
 
     public Set<WebPage> getSearchResults(String fullQuery) {
         String[] queries = fullQuery.split("%20OR%20");
+        System.out.println("query_ "+fullQuery);
         Set<WebPage> searchResults = new HashSet<>();
         for (String query : queries) {
             List<List<WebPage>> responses = new ArrayList<>();

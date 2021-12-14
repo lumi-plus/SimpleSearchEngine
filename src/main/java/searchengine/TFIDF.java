@@ -32,7 +32,7 @@ public class TFIDF {
                 if (rankings.containsKey(page)) {
                     score = Math.max(rankings.get(page), score);
                 }
-                System.out.println(page.getTitle()+": "+score);
+                // System.out.println(page.getTitle()+": "+score);
                 rankings.put(page, score);
             }
         }
