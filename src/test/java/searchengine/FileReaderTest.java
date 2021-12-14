@@ -1,21 +1,18 @@
 package searchengine;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class FileReaderTest {
     private FileReader fileReader;
-
     @BeforeAll
     public void setUp() {
         try {
@@ -40,7 +37,7 @@ public class FileReaderTest {
     @Test
     public void testGetPages() {
         int size = fileReader.getPages().size();
-        assertEquals(2, size);
+        assertEquals(6, size);
     }
     
 }

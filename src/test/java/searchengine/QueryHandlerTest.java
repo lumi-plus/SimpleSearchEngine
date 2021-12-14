@@ -21,7 +21,7 @@ public class QueryHandlerTest {
             fileReader = new FileReader("data/enwiki-tiny.txt");
             //fileReader = new FileReader("data/test-file.txt");
             invertedIndex = new InvertedIndex(fileReader.getPages());
-            queryHandler = new QueryHandler(invertedIndex, tfidf);
+            queryHandler = new QueryHandler(invertedIndex);
         } catch (Exception e){
             e.printStackTrace();
         }
