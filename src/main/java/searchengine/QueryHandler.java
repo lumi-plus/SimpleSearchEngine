@@ -33,7 +33,7 @@ public class QueryHandler {
                     }
                 }
             }
-            Collections.addAll(c, elements)
+            Collections.addAll(searchResults, tmp.toArray(new WebPage[0]));
         }
     }
 
