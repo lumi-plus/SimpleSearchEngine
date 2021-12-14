@@ -1,6 +1,7 @@
 package searchengine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,7 @@ public class QueryHandler {
 
     public QueryHandler(String fullQuery, InvertedIndex invertedIndex) {
         String[] queries = fullQuery.split("%20OR%20");
+        searchResults = new ArrayList<>();
         for (String query : queries) {
             List<Set<WebPage>> responses = new ArrayList<>();
             Set<WebPage> allResponses = new HashSet<>();
@@ -23,14 +25,15 @@ public class QueryHandler {
                 }
                 responses.add(response);
             }
-            searchResults = new ArrayList<>(allResponses);
+            List<WebPage> tmp = new ArrayList<>(allResponses);
             for (Set<WebPage> response : responses) {
                 for (WebPage page : allResponses) {
                     if (!response.contains(page)) {
-                        searchResults.remove(page);
+                        tmp.remove(page);
                     }
                 }
             }
+            Collections.addAll(c, elements)
         }
     }
 
