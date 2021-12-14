@@ -51,7 +51,6 @@ public class TFIDF {
             }
         }
         double score = count / document.size();
-        System.out.println(term+": "+score);
         return score;
     }
 
