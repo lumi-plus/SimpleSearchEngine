@@ -25,7 +25,7 @@ public class WebServer {
         FileReader fileReader = new FileReader(filename);
         InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
         QueryHandler queryHandler = new QueryHandler(invertedIndex);
-        RankAlgoritm rankAlgoritm = new TFIDF(invertedIndex);
+        RankAlgoritm rankAlgoritm = new TF(invertedIndex);
         SearchEngine searchEngine = new SearchEngine(this, invertedIndex, queryHandler, rankAlgoritm);
         server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
         server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
