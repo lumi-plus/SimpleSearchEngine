@@ -12,13 +12,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TFIDF {
+public class TFIDF extends RankAlgoritm {
     private InvertedIndex invertedIndex;
 
     public TFIDF(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
     }
 
+    @Override
     public List<WebPage> rank(Set<WebPage> pages, String fullQuery) {
         String[] queries = fullQuery.split("%20OR%20");
         Map<WebPage, Double> rankings = new HashMap<>();
@@ -26,7 +27,7 @@ public class TFIDF {
             query = query.toLowerCase();
             for (WebPage page : pages) {
                 double score = computeTFIDF(query, page, pages);
-                if (Double.isNaN(score)){
+                if (Double.isNaN(score)) {
                     break;
                 }
                 if (rankings.containsKey(page)) {
@@ -62,9 +63,9 @@ public class TFIDF {
         // List<String> terms = new ArrayList<>();
         // Collections.addAll(terms, term.split("%20"));
         // for (String word : document) {
-        //     if (terms.contains(word)) {
-        //         count++;
-        //     }
+        // if (terms.contains(word)) {
+        // count++;
+        // }
         // }
         return count / document.size();
     }
@@ -82,14 +83,14 @@ public class TFIDF {
         List<WebPage> result = new ArrayList<>(pages);
         for (Set<WebPage> r1 : allResponses) {
             for (WebPage page : r1) {
-                for (Set<WebPage> r2: allResponses) {
+                for (Set<WebPage> r2 : allResponses) {
                     if (!r2.contains(page)) {
                         result.remove(page);
                     }
                 }
             }
         }
-        return Math.log10((double) documents.size()/result.size())+1;
+        return Math.log10((double) documents.size() / result.size()) + 1;
     }
 
     public double computeTFIDF(String term, WebPage document, Set<WebPage> documents) {
@@ -98,4 +99,5 @@ public class TFIDF {
         // System.out.println(document.getTitle() + ", tfidf: " + tf*idf);
         return tf * idf;
     }
+
 }

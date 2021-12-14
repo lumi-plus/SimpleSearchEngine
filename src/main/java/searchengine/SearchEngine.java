@@ -14,20 +14,21 @@ public class SearchEngine {
     private WebServer server;
     private InvertedIndex invertedIndex;
     private QueryHandler queryHandler;
-    private TFIDF tfidf;
+    private RankAlgoritm rankAlgoritm;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public SearchEngine(WebServer server, InvertedIndex invertedIndex, QueryHandler queryHandler, TFIDF tfidf) {
+    public SearchEngine(WebServer server, InvertedIndex invertedIndex, QueryHandler queryHandler,
+            RankAlgoritm rankAlgoritm) {
         this.server = server;
         this.invertedIndex = invertedIndex;
         this.queryHandler = queryHandler;
-        this.tfidf = tfidf;
+        this.rankAlgoritm = rankAlgoritm;
     }
 
     public void search(HttpExchange io) {
         String query = io.getRequestURI().getRawQuery().split("=")[1];
         Set<WebPage> searchResults = queryHandler.getSearchResults(query);
-        List<WebPage> rankedResults = tfidf.rank(searchResults, query);
+        List<WebPage> rankedResults = rankAlgoritm.rank(searchResults, query);
         List<String> searchResponse = getSearchResponse(rankedResults);
         byte[] bytes = searchResponse.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);

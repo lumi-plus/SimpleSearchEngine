@@ -21,12 +21,12 @@ public class WebServer {
     private HttpServer server;
 
     public WebServer(int port, String filename) throws IOException {
-        System.out.println("filename: "+filename);
+        System.out.println("filename: " + filename);
         FileReader fileReader = new FileReader(filename);
         InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
         QueryHandler queryHandler = new QueryHandler(invertedIndex);
-        TFIDF tfidf = new TFIDF(invertedIndex);
-        SearchEngine searchEngine = new SearchEngine(this, invertedIndex, queryHandler, tfidf);
+        RankAlgoritm rankAlgoritm = new TFIDF(invertedIndex);
+        SearchEngine searchEngine = new SearchEngine(this, invertedIndex, queryHandler, rankAlgoritm);
         server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
         server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
         server.createContext("/search", io -> searchEngine.search(io));
