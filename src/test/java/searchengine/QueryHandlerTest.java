@@ -21,7 +21,7 @@ public class QueryHandlerTest {
             fileReader = new FileReader("data/enwiki-tiny.txt");
             //fileReader = new FileReader("data/test-file.txt");
             invertedIndex = new InvertedIndex(fileReader.getPages());
-            queryHandler = new QueryHandler(invertedIndex, tfidf);
+            queryHandler = new QueryHandler(invertedIndex);
         } catch (Exception e){
             e.printStackTrace();
         }
@@ -57,7 +57,7 @@ public class QueryHandlerTest {
 
     @Test
     public void tripleWordDoubleQuery(){
-        int size = queryHandler.getSearchResults("country%20OR%20university%20of%20copenhagen").size();
+        int size = queryHandler.getSearchResults("japan%20is%20island%20OR%20usa%20OR%20happiest").size();
         assertEquals(4, size);
     }
 

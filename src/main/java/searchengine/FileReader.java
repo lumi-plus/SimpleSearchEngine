@@ -25,6 +25,12 @@ public class FileReader {
                     }
                 }
             }
+            String url = lines.get(firstIndex).substring("*PAGE:".length());
+            String title = lines.get(firstIndex + 1);
+            List<String> content = lines.subList(firstIndex + 2, lines.size());
+            if (!(title.isBlank() && content.isEmpty())) {
+                pages.add(new WebPage(url, title, content));
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
