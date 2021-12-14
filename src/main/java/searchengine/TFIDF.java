@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 public class TFIDF {
     private InvertedIndex invertedIndex;
+
     public TFIDF(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
     }
@@ -23,10 +25,14 @@ public class TFIDF {
         for (String query : queries) {
             query = query.toLowerCase();
             for (WebPage page : pages) {
-                double score = computeTFID(query, page, pages);
+                double score = computeTFIDF(query, page, pages);
+                if (Double.isNaN(score)){
+                    break;
+                }
                 if (rankings.containsKey(page)) {
                     score = Math.max(rankings.get(page), score);
                 }
+                System.out.println(page.getTitle()+": "+score);
                 rankings.put(page, score);
             }
         }
@@ -43,28 +49,53 @@ public class TFIDF {
 
     public double termFrequency(String term, List<String> document) {
         double count = 0;
-        List<String> terms = new ArrayList<>();
-        Collections.addAll(terms, term.split("%20"));
-        for (String word : document) {
-            if (terms.contains(word)) {
-                count++;
+        for (String query : term.split("%20")) {
+            if (invertedIndex.getPages(query).isEmpty()) {
+                return 0;
+            }
+            for (String word : document) {
+                if (word.equals(query)) {
+                    count++;
+                }
             }
         }
-        double score = count / document.size();
-        System.out.println(term+": "+score);
-        return score;
+        // List<String> terms = new ArrayList<>();
+        // Collections.addAll(terms, term.split("%20"));
+        // for (String word : document) {
+        //     if (terms.contains(word)) {
+        //         count++;
+        //     }
+        // }
+        return count / document.size();
     }
 
     public double inverseDocumentFrequency(String term, Set<WebPage> documents) {
-        List<WebPage> pages = invertedIndex.getPages(term);
-        double score = Math.log(documents.size() / pages.size());
-        return score;
+        List<Set<WebPage>> allResponses = new ArrayList<>();
+        Set<WebPage> pages = new HashSet<>();
+        for (String query : term.split("%20")) {
+            var response = invertedIndex.getPages(query);
+            allResponses.add(response);
+            for (WebPage page : response) {
+                pages.add(page);
+            }
+        }
+        List<WebPage> result = new ArrayList<>(pages);
+        for (Set<WebPage> r1 : allResponses) {
+            for (WebPage page : r1) {
+                for (Set<WebPage> r2: allResponses) {
+                    if (!r2.contains(page)) {
+                        result.remove(page);
+                    }
+                }
+            }
+        }
+        return Math.log10((double) documents.size()/result.size())+1;
     }
 
-    public double computeTFID(String term, WebPage document, Set<WebPage> documents) {
-        // System.out.println("term: " + term);
+    public double computeTFIDF(String term, WebPage document, Set<WebPage> documents) {
         double tf = termFrequency(term, document.getContent());
         double idf = inverseDocumentFrequency(term, documents);
+        // System.out.println(document.getTitle() + ", tfidf: " + tf*idf);
         return tf * idf;
     }
 }

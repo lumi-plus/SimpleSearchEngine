@@ -6,6 +6,9 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+
+import javax.management.Query;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -20,7 +23,9 @@ public class WebServer {
     public WebServer(int port, String filename) throws IOException {
         FileReader fileReader = new FileReader(filename);
         InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
-        SearchEngine searchEngine = new SearchEngine(this, invertedIndex);
+        QueryHandler queryHandler = new QueryHandler(invertedIndex);
+        TFIDF tfidf = new TFIDF(invertedIndex);
+        SearchEngine searchEngine = new SearchEngine(this, invertedIndex, queryHandler, tfidf);
         server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
         server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
         server.createContext("/search", io -> searchEngine.search(io));

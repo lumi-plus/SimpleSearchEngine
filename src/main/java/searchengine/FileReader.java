@@ -48,6 +48,7 @@ public class FileReader {
      * @return
      */
     public List<WebPage> getPages() {
+        System.out.println("Total count all pages in file: "+pages.size());
         return pages;
     }
 
