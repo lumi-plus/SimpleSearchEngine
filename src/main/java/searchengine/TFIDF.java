@@ -1,23 +1,36 @@
 package searchengine;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TFIDF {
-    private List<WebPage> rankedPages;
+    private InvertedIndex invertedIndex;
+    public TFIDF(InvertedIndex invertedIndex) {
+        this.invertedIndex = invertedIndex;
+    }
 
-    public TFIDF(List<WebPage> pages, String term) {
-        Map<WebPage, Double> rankMapping = new HashMap<>();
-        for (WebPage page : pages) {
-            rankMapping.put(page, computeTFID(term, page, pages));
+    public List<WebPage> rank(Set<WebPage> pages, String fullQuery) {
+        String[] queries = fullQuery.split("%20OR%20");
+        Map<WebPage, Double> rankings = new HashMap<>();
+        for (String query : queries) {
+            query = query.toLowerCase();
+            for (WebPage page : pages) {
+                double score = computeTFID(query, page, pages);
+                if (rankings.containsKey(page)) {
+                    score = Math.max(rankings.get(page), score);
+                }
+                rankings.put(page, score);
+            }
         }
-        rankedPages = sortRanking(rankMapping);
+        return sortRanking(rankings);
     }
 
     public List<WebPage> sortRanking(Map<WebPage, Double> map) {
@@ -26,39 +39,32 @@ public class TFIDF {
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue,
                         (e2, e1) -> e2, LinkedHashMap::new));
         return new ArrayList<>(sortedMap.keySet());
-        
     }
 
     public double termFrequency(String term, List<String> document) {
         double count = 0;
+        List<String> terms = new ArrayList<>();
+        Collections.addAll(terms, term.split("%20"));
         for (String word : document) {
-            if (term.equals(word)) {
+            if (terms.contains(word)) {
                 count++;
             }
         }
-        return count / document.size();
+        double score = count / document.size();
+        System.out.println(term+": "+score);
+        return score;
     }
 
-    public double inverseDocumentFrequency(String term, List<WebPage> documents) {
-        double count = 0;
-        for (WebPage document : documents) {
-            for (String word : document.getContent()) {
-                if (word.equals(term)) {
-                    count++;
-                    break;
-                }
-            }
-        }
-        return count / documents.size();
+    public double inverseDocumentFrequency(String term, Set<WebPage> documents) {
+        List<WebPage> pages = invertedIndex.getPages(term);
+        double score = Math.log(documents.size() / pages.size());
+        return score;
     }
 
-    public double computeTFID(String term, WebPage document, List<WebPage> documents) {
+    public double computeTFID(String term, WebPage document, Set<WebPage> documents) {
+        // System.out.println("term: " + term);
         double tf = termFrequency(term, document.getContent());
         double idf = inverseDocumentFrequency(term, documents);
         return tf * idf;
-    }
-
-    public List<WebPage> getRankedResults() {
-        return rankedPages;
     }
 }
