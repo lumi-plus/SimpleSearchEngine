@@ -68,7 +68,6 @@ public class FileReader {
      * @return ArrayList with all files in webpage format with url, title and content
      */
     public List<WebPage> getPages() {
-        System.out.println("Total count all pages in file: " + pages.size());
         return pages;
     }
 
