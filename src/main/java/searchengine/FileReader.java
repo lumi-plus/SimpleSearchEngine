@@ -10,7 +10,7 @@ import java.util.List;
  * class responsible for reading the files in the database
  * 
  * @author skje, lmig, mers, davv
- * @verison 2021.12.15
+ * @version 2021.12.15
  */
 public class FileReader {
     //contains all web pages consisting of url, title, content

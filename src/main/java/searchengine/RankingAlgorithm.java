@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * abstract class providing the framework to plug different ranking algorithms into the code
  * @author skje, lmig, mers, davv
- * @verison 2021.12.15
+ * @version 2021.12.15
  */
 public abstract class RankingAlgorithm {
     /**
