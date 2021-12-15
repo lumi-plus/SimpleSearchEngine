@@ -29,14 +29,30 @@ public class TFIDFTest {
     }
 
     @Test
-    public void idf() {
+    public void oneOutOfSixIDF() {
         String query = "usa%20OR%20the";
         Set<WebPage> documents = queryHandler.getSearchResults(query);
-        // Map<WebPage, Double> rankMap = rankingAlgorithm.rank(documents, query);
-        // WebPage usa = (WebPage) queryHandler.getSearchResults("usa").toArray()[0];
-        // double rank = rankMap.get(usa);
         double rank = rankingAlgorithm.inverseDocumentFrequency("usa", documents);
-        assertEquals(Math.log10(6/2), rank);
+        double expected = Math.log10(6.0/2);
+        assertEquals(expected, rank);
+    }
+
+    @Test
+    public void twoOutOfSixIDF() {
+        String query = "university%20OR%20the";
+        Set<WebPage> documents = queryHandler.getSearchResults(query);
+        double rank = rankingAlgorithm.inverseDocumentFrequency("university", documents);
+        double expected = Math.log10(6.0/3);
+        assertEquals(expected, rank);
+    }
+
+    @Test
+    public void sixOutOfSixIDF() {
+        String query = "the";
+        Set<WebPage> documents = queryHandler.getSearchResults(query);
+        double rank = rankingAlgorithm.inverseDocumentFrequency("the", documents);
+        double expected = Math.log10(6.0/7);
+        assertEquals(expected, rank);
     }
 
 }
