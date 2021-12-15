@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 /**
  * class to calculate the term frequency of a query
  * @author skje, lmig, mers, davv
- * @verison 2021.12.15
+ * @version 2021.12.15
  */
 public class TF extends RankingAlgorithm {
     //the inverted index maps content to a given word
@@ -28,10 +28,10 @@ public class TF extends RankingAlgorithm {
     }
     
     /**
-     * maps the score calculated in compmuteFrequency to a web page
+     * maps the score calculated in computeFrequency to a web page
      * @param pages set containing all web pages consisting of url, title and content
      * @param fullQuery query as it was entered in the search engine including "OR" and capital letters
-     * @return  
+     * @return the score mapped to each web page
      */
     @Override
     public Map<WebPage, Double> rank(Set<WebPage> pages, String fullQuery) {
@@ -56,7 +56,7 @@ public class TF extends RankingAlgorithm {
     /**
      * sorts the web pages based on their score in descending order
      * @param map web page mapped to its score
-     * @return ArrayList sorted by score
+     * @return ArrayList with web pages sorted by their score
      */
     @Override
     public List<WebPage> sortRanking(Map<WebPage, Double> map) {
