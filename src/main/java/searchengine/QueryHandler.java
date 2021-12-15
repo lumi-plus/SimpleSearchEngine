@@ -5,14 +5,29 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+/**
+ * class responsible for searches
+ * @author skje, lmig, mers, davv
+ * @version 2021.12.15
+ */
 public class QueryHandler {
+    //maps content to a given word
     private InvertedIndex invertedIndex;
 
+    /**
+     * creates a query handler using an inverted index 
+     * @param invertedIndex maps content to a given word
+     */
     public QueryHandler(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
     }
 
+    /**
+     * looks through the inverted index for pages containing a given search term or search terms, if the "OR" separator is use,
+     * and adds the results to a set
+     * @param fullQuery query as it was entered in the search engine including "OR" and capital letters
+     * @return a set with all search results
+     */
     public Set<WebPage> getSearchResults(String fullQuery) {
         String[] queries = fullQuery.split("%20OR%20");
         Set<WebPage> searchResults = new HashSet<>();

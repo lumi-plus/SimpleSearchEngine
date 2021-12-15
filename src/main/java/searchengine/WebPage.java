@@ -1,12 +1,25 @@
 package searchengine;
 
 import java.util.List;
-
+/**
+ * class to split documents only consisiting of strings into a title, url and content to represent a web page
+ * @author skje, lmig, mers, davv
+ * @version 2021.12.15
+ */
 public class WebPage {
+    //the title of the web page
     private String title;
+    //the uniform resource locator of the web page
     private String url;
+    //the content of the web page represented as a list of strings
     private List<String> content;
 
+    /**
+     * constructor of the web page
+     * @param url uniform resource locator of the web page
+     * @param title title of the web page
+     * @param content content of the web page represented as a list of strings
+     */
     public WebPage(String url, String title, List<String> content) {
         this.url = url;
         this.title = title;
@@ -14,43 +27,40 @@ public class WebPage {
     }
     
     /**
-     * returns the titel of the webpage
-     * @return
+     * @return titel of the web page
      */
     public String getTitle() {
         return this.title;
     }
     /**
-     * returns the content of the webpage
-     * @return
+     * @return content of the web page
      */
     public List<String> getContent() {
         return this.content;
     }
     /**
-     * returns the URL of the webpage
-     * @return
+     * @return uniform resource locator of the web page
      */
     public String getUrl() {
         return this.url;
     }
     /**
-     * sets the content
-     * @param content
+     * assigns content to the web page
+     * @param content content of the web page represented as a list of strings
      */
     public void setContent(List<String> content) {
         this.content = content;
     }
     /**
-     * sets the title
-     * @param title
+     * assigns a title to the web page
+     * @param title title of the web page
      */
     public void setTitle(String title) {
         this.title = title;
     }
     /**
-     * sets the URL
-     * @param url
+     * assigns a uniform resource locator to the web page
+     * @param url uniform resource locator of the web page
      */
     public void setUrl(String url) {
         this.url = url;
