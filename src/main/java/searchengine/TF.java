@@ -18,13 +18,13 @@ public class TF extends RankingAlgorithm {
     }
 
     @Override
-    public List<WebPage> rank(Set<WebPage> pages, String fullQuery) {
+    public Map<WebPage, Double> rank(Set<WebPage> pages, String fullQuery) {
         String[] queries = fullQuery.split("%20OR%20");
         Map<WebPage, Double> rankings = new HashMap<>();
         for (String query : queries) {
             query = query.toLowerCase();
             for (WebPage page : pages) {
-                double score = computeFrequency(query, page, pages);
+                double score = computeRank(query, page, pages);
                 if (Double.isNaN(score)) {
                     break;
                 }
@@ -35,7 +35,7 @@ public class TF extends RankingAlgorithm {
                 rankings.put(page, score);
             }
         }
-        return sortRanking(rankings);
+        return rankings
     }
 
     @Override
