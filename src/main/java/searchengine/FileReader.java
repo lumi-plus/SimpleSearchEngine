@@ -18,7 +18,7 @@ public class FileReader {
                 if (lines.get(i).startsWith("*PAGE")) {
                     String url = lines.get(firstIndex).substring("*PAGE:".length());
                     String title = lines.get(firstIndex + 1);
-                    List<String> content = lines.subList(firstIndex + 2, i + 1);
+                    List<String> content = lines.subList(firstIndex + 2, i);
                     if (!(title.isBlank() && content.isEmpty())) {
                         pages.add(new WebPage(url, title, content));
                         firstIndex = i;
