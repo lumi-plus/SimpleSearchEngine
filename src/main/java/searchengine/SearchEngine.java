@@ -18,19 +18,11 @@ import com.sun.net.httpserver.HttpExchange;
  */
 public class SearchEngine {
     private WebServer server;
-<<<<<<< HEAD
     //maps content to a given word
-=======
-    // maps content to a given word
->>>>>>> 57cbeab62fcbdaeb77e362fb054cf6e08cca3b53
     private InvertedIndex invertedIndex;
     // converts searches into refined queries
     private QueryHandler queryHandler;
-<<<<<<< HEAD
     //sorts search results based on a score
-=======
-    // sorts search results based on a score
->>>>>>> 57cbeab62fcbdaeb77e362fb054cf6e08cca3b53
     private RankingAlgorithm rankingAlgorithm;
     //
     private static final Charset CHARSET = StandardCharsets.UTF_8;
