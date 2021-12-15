@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 /**
- * class to calculate the inverse document frequency and term frequency-inverse document frequncy to sort search results
+ * class to calculate the inverse document frequency and term frequency-inverse document frequency to sort search results
  * based on this score
  * @author skje, lmig, mers, davv
  * @version 2021.12.15
