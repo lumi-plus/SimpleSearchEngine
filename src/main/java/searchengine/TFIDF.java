@@ -49,18 +49,18 @@ public class TFIDF extends TF {
         return new ArrayList<>(sortedMap.keySet());
     }
 
-    public double termFrequency(String term, List<String> document) {
-        double count = 0;
-        for (String query : term.split("%20")) {
-            if (invertedIndex.getPages(query).isEmpty()) {
-                return 0;
-            }
-            for (String word : document) {
-                if (word.equals(query)) {
-                    count++;
-                }
-            }
-        }
+    // public double termFrequency(String term, List<String> document) {
+    //     double count = 0;
+    //     for (String query : term.split("%20")) {
+    //         if (invertedIndex.getPages(query).isEmpty()) {
+    //             return 0;
+    //         }
+    //         for (String word : document) {
+    //             if (word.equals(query)) {
+    //                 count++;
+    //             }
+    //         }
+    //     }
         // List<String> terms = new ArrayList<>();
         // Collections.addAll(terms, term.split("%20"));
         // for (String word : document) {
@@ -68,8 +68,8 @@ public class TFIDF extends TF {
         // count++;
         // }
         // }
-        return count / document.size();
-    }
+    //     return count / document.size();
+    // }
 
     public double inverseDocumentFrequency(String term, Set<WebPage> documents) {
         List<Set<WebPage>> allResponses = new ArrayList<>();
@@ -91,15 +91,21 @@ public class TFIDF extends TF {
                 }
             }
         }
-        return Math.log10((double) documents.size() / result.size()) + 1;
+        return Math.log10((double) documents.size() / result.size() +1);
     }
 
     @Override
     public double computeFrequency(String term, WebPage document, Set<WebPage> documents) {
-        double tf = termFrequency(term, document.getContent());
+        double tf = super.termFrequency(term, document.getContent());
         double idf = inverseDocumentFrequency(term, documents);
         // System.out.println(document.getTitle() + ", tfidf: " + tf*idf);
         return tf * idf;
     }
+
+    // @Override
+    // public double termFrequency(String term, List<String> document) {
+    //     // TODO Auto-generated method stub
+    //     return super.termFrequency(term, document);
+    // }
 
 }
