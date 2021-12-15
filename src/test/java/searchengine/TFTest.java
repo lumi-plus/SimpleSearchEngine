@@ -114,19 +114,32 @@ public class TFTest {
         String falseQuery = "false";
         String trueQuery = "usa";
         Set<WebPage> pages = this.invertedIndex.getPages(trueQuery);
-        var x = tf.rank(pages, falseQuery);
-        assertEquals("", x);
+        var x = tf.rank(pages, falseQuery).get(trueQuery);
+        assertEquals(null, x);
     }
 
     @Test
     public void rankTest5() {
         TF tf = new TF(this.invertedIndex);
-        String fullQuery = "usa";
-        Set<WebPage> pages = this.invertedIndex.getPages(fullQuery);
+        QueryHandler queryHandler = new QueryHandler(this.invertedIndex);
+        String fullQuery = "usa%20OR%20usa";
+        Set<WebPage> pages = queryHandler.getSearchResults(fullQuery);
         Map<WebPage, Double> ranked = tf.rank(pages, fullQuery);
         String actualTitle = tf.sortRanking(ranked).get(0).getTitle();
         String expectedTitle = "United States";
         assertEquals(expectedTitle, actualTitle);
+    }
+
+    @Test
+    public void rankTest6() {
+        TF tf = new TF(this.invertedIndex);
+        QueryHandler queryHandler = new QueryHandler(this.invertedIndex);
+        String fullQuery = "empty%20OR%20false";
+        Set<WebPage> pages = queryHandler.getSearchResults(fullQuery);
+        Map<WebPage, Double> ranked = tf.rank(pages, fullQuery);
+        int actualSize = tf.sortRanking(ranked).size();
+        int expectedSize = 0;
+        assertEquals(expectedSize, actualSize);
     }
 
 }
