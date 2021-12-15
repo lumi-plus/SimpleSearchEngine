@@ -50,7 +50,6 @@ public class TFIDF extends TF {
                 }
             }
         }
-        // double score = 
         return Math.log10((double) documents.size() / (result.size()+1));
     }
 

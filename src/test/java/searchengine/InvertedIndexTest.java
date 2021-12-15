@@ -24,17 +24,17 @@ public class InvertedIndexTest {
     }
 
     @Test
-    void lookUpWordWithZeroResults() {
+    public void lookUpWordWithZeroResults() {
         assertEquals(0, invertedIndex.getPages("pingu").size());
     }
 
     @Test
-    void lookUpWordWithOneResult() {
+    public void lookUpWordWithOneResult() {
         assertEquals(1, invertedIndex.getPages("selfgoverning").size());
     }
     
     @Test
-    void lookUpWordWithSixResults() {
+    public void lookUpWordWithSixResults() {
         assertEquals(6, invertedIndex.getPages("the").size());
     }
 }

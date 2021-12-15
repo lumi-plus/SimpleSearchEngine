@@ -25,7 +25,6 @@ public class QueryHandlerTest {
         }
     }
 
-
     @Test
     public void singleWordSingleQuery(){
         int size = queryHandler.getSearchResults("usa").size();
@@ -44,14 +43,11 @@ public class QueryHandlerTest {
         assertEquals(3, size);
     }
 
-
     @Test
     public void doubleWordDoubleQuery(){
         int size = queryHandler.getSearchResults("country%20usa%20OR%20listenidnmrk%20dnm").size();
         assertEquals(2, size);
     }
-
-
 
     @Test
     public void tripleWordDoubleQuery(){
@@ -59,17 +55,9 @@ public class QueryHandlerTest {
         assertEquals(4, size);
     }
 
-
-
-
     @Test
     public void doubleWordTripleQueryCapital(){
         int size = queryHandler.getSearchResults("Country%20usa%20OR%20listeNidnmrk%20dnm").size();
         assertEquals(2, size);
     }
-
-
-
-
-
 }

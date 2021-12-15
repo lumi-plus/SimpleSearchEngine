@@ -1,4 +1,3 @@
-
 package searchengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -11,6 +10,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Random;
 
+import com.sun.net.httpserver.HttpServer;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,16 +19,18 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class WebServerTest {
-    private WebServer webServer = null;
+class WebServerTest {
+    WebServer webServer = null;
 
     @BeforeAll
-    public void setUp() {
+    void setUp() {
         try {
-            var rnd = new Random();
+            Random rnd = new Random();
             while (webServer == null) {
                 try {
-                    webServer = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file.txt");
+                    // webServer = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file.txt");
+
+                    new WebServer(8080, "data/enwiki-tiny.txt");
                 } catch (BindException e) {
                 }
             }
@@ -37,22 +40,26 @@ public class WebServerTest {
     }
 
     @AfterAll
-    public void tearDown() {
-        webServer.getHttpServer().stop(0);
+    void tearDown() {
+        HttpServer httpServer = webServer.getHttpServer();
+        httpServer.stop(0);
         webServer = null;
     }
 
     @Test
-    public void lookupWebServer() {
+    void lookupWebServer() {
         String baseURL = String.format("http://localhost:%d/search?q=",
                 webServer.getHttpServer().getAddress().getPort());
         assertEquals(
                 "[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]",
                 httpGet(baseURL + "word1"));
+
         assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}]",
                 httpGet(baseURL + "word2"));
+
         assertEquals("[{\"url\": \"http://page2.com\", \"title\": \"title2\"}]",
                 httpGet(baseURL + "word3"));
+
         assertEquals("[]",
                 httpGet(baseURL + "word4"));
     }
