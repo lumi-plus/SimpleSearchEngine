@@ -6,6 +6,7 @@ import java.util.Set;
 
 public abstract class RankAlgoritm {
 
-    public abstract List<WebPage> rank(Set<WebPage> pages, String fullQuery);
+    public abstract Map<WebPage, Double> rank(Set<WebPage> pages, String fullQuery);
+
     public abstract List<WebPage> sortRanking(Map<WebPage, Double> map);
 }

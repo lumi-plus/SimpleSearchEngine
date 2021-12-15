@@ -18,7 +18,7 @@ public class TF extends RankAlgoritm {
     }
 
     @Override
-    public List<WebPage> rank(Set<WebPage> pages, String fullQuery) {
+    public Map<WebPage, Double> rank(Set<WebPage> pages, String fullQuery) {
         String[] queries = fullQuery.split("%20OR%20");
         Map<WebPage, Double> rankings = new HashMap<>();
         for (String query : queries) {
@@ -35,7 +35,7 @@ public class TF extends RankAlgoritm {
                 rankings.put(page, score);
             }
         }
-        return sortRanking(rankings);
+        return rankings;
     }
 
     @Override

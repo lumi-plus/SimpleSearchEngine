@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -24,7 +25,8 @@ public class SearchEngine {
     public void search(HttpExchange io) {
         String query = io.getRequestURI().getRawQuery().split("=")[1];
         Set<WebPage> searchResults = queryHandler.getSearchResults(query);
-        List<WebPage> rankedResults = rankAlgoritm.rank(searchResults, query);
+        Map<WebPage, Double> rankedMapping = rankAlgoritm.rank(searchResults, query);
+        List<WebPage> rankedResults = rankAlgoritm.sortRanking(rankedMapping);
         List<String> searchResponse = getSearchResponse(rankedResults);
         byte[] bytes = searchResponse.toString().getBytes(CHARSET);
         server.respond(io, 200, "application/json", bytes);
