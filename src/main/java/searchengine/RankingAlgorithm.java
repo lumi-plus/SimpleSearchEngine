@@ -10,7 +10,7 @@ import java.util.Set;
  */
 public abstract class RankingAlgorithm {
     /**
-     * maps the score calculated in compmuteFrequency to a web page
+     * maps the score calculated in computeFrequency to a web page
      * @param pages set containing all web pages consisting of url, title and content
      * @param fullQuery query as it was entered in the search engine including "OR" and capital letters
      * @return map with a web page and its score
