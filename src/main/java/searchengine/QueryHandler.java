@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 /**
- * class responsible for searches
+ * class responsible for converting searches into refined queries
  * @author skje, lmig, mers, davv
  * @version 2021.12.15
  */
@@ -56,7 +56,6 @@ public class QueryHandler {
             }
             Collections.addAll(searchResults, result.toArray(new WebPage[0]));
         }
-        System.out.println("size: "+searchResults.size());
         return searchResults;
     }
 }

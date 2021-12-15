@@ -16,20 +16,12 @@ import com.sun.net.httpserver.HttpExchange;
 public class SearchEngine {
     //
     private WebServer server;
-<<<<<<< HEAD
-    private QueryHandler queryHandler;
-    private RankingAlgorithm rankingAlgorithm;
-    private static final Charset CHARSET = StandardCharsets.UTF_8;
-
-    public SearchEngine(WebServer server, QueryHandler queryHandler,
-            RankingAlgorithm rankAlgoritm) {
-=======
     //maps content to a given word
     private InvertedIndex invertedIndex;
     //converts searches into refined queries
     private QueryHandler queryHandler;
     //sorts search results based on a score
-    private RankAlgoritm rankAlgoritm;
+    private RankingAlgorithm rankingAlgorithm;
     //
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
@@ -40,12 +32,11 @@ public class SearchEngine {
      * @param queryHandler converts searches into refined queries
      * @param rankAlgoritm sorts search results based on a score
      */
-    public SearchEngine(WebServer server, InvertedIndex invertedIndex, QueryHandler queryHandler,
-            RankAlgoritm rankAlgoritm) {
->>>>>>> origin/javadoc
+    public SearchEngine(WebServer server, QueryHandler queryHandler,
+            RankingAlgorithm rankingAlgorithm) {
         this.server = server;
         this.queryHandler = queryHandler;
-        this.rankingAlgorithm = rankAlgoritm;
+        this.rankingAlgorithm = rankingAlgorithm;
     }
 
     /**
