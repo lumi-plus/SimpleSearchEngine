@@ -17,17 +17,18 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class WebServerTest {
-    private WebServer server = null;
-    private WebServer faultyServer = null;
+    private WebServer webServer = null;
+    // private WebServer faultyServer = null;
 
     @BeforeAll
     public void setUp() {
         try {
             var rnd = new Random();
-            while (faultyServer == null && server == null) {
+            while (webServer == null) {
                 try {
-                    server = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file.txt");
-                    faultyServer = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file-errors.txt");
+                    webServer = new WebServer(rnd.nextInt(60000) + 1024, "data/test-file.txt");
+                    // faultyServer = new WebServer(rnd.nextInt(60000) + 1024,
+                    // "data/test-file-errors.txt");
                 } catch (BindException e) {
                 }
             }
@@ -38,11 +39,14 @@ public class WebServerTest {
 
     @AfterAll
     public void tearDown() {
-        server.getServer().stop(0);
-        faultyServer.getServer().stop(0);
-        faultyServer = null;
-        server = null;
+        var a = webServer.getHttpServer();
+        a.stop(10);
+        // faultyServer.getServer().stop(0);
+        // faultyServer = null;
+        webServer = null;
     }
+
+    <<<<<<<HEAD
 
     @Test
     public void lookupFaultyServer() {
@@ -60,6 +64,22 @@ public class WebServerTest {
         assertEquals(
                 "[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]",
                 httpGet(baseURL + "word1"));
+=======
+    // @Test
+    // public void lookupFaultyServer() {
+    //     String baseURL = String.format("http://localhost:%d/search?q=", faultyServer.getServer().getAddress().getPort());
+        
+    //     assertEquals("[]", 
+    //         httpGet(baseURL + " "));
+    // }
+
+    @Test
+    public void lookupWebServer() {
+        String baseURL = String.format("http://localhost:%d/search?q=", webServer.getHttpServer().getAddress().getPort());
+        
+        assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}, {\"url\": \"http://page2.com\", \"title\": \"title2\"}]", 
+            httpGet(baseURL + "word1"));
+>>>>>>> 435b8829b0f5899ad8ffc378fab918c5af62817c
 
         assertEquals("[{\"url\": \"http://page1.com\", \"title\": \"title1\"}]",
                 httpGet(baseURL + "word2"));

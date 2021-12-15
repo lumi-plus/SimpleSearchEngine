@@ -10,15 +10,13 @@ import com.sun.net.httpserver.HttpExchange;
 
 public class SearchEngine {
     private WebServer server;
-    private InvertedIndex invertedIndex;
     private QueryHandler queryHandler;
     private RankAlgoritm rankAlgoritm;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    public SearchEngine(WebServer server, InvertedIndex invertedIndex, QueryHandler queryHandler,
+    public SearchEngine(WebServer server, QueryHandler queryHandler,
             RankAlgoritm rankAlgoritm) {
         this.server = server;
-        this.invertedIndex = invertedIndex;
         this.queryHandler = queryHandler;
         this.rankAlgoritm = rankAlgoritm;
     }
