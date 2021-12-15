@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import javax.management.Query;
-
 import com.sun.net.httpserver.HttpExchange;
 
 public class SearchEngine {
