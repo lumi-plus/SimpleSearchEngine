@@ -9,14 +9,26 @@ import java.nio.file.Paths;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-
+/**
+ * @author skje, lmig, mers, davv
+ * @version 2021.12.15
+ */
 public class WebServer {
+    //
     private static final int PORT = 8080;
+    //
     private static final int BACKLOG = 0;
+    //
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     private HttpServer httpServer;
 
+    /**
+     * 
+     * @param port
+     * @param filename
+     * @throws IOException
+     */
     public WebServer(int port, String filename) throws IOException {
         System.out.println("filename: " + filename);
         FileReader fileReader = new FileReader(filename);
@@ -40,6 +52,13 @@ public class WebServer {
         System.out.println("╰" + "─".repeat(msg.length()) + "╯");
     }
 
+    /**
+     * 
+     * @param io
+     * @param code
+     * @param mime
+     * @param response
+     */
     public void respond(HttpExchange io, int code, String mime, byte[] response) {
         try {
             io.getResponseHeaders()
