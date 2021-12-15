@@ -24,13 +24,16 @@ public class InvertedIndexTest {
     }
 
     @Test
-    public void getPagesFromInvertedIndex() throws IOException {
-        // Look up something that is not there
+    void lookUpWordWithZeroResults() {
         assertEquals(0, invertedIndex.getPages("pingu").size());
-        // Look up a word that is in all six webpages
-        assertEquals(6, invertedIndex.getPages("the").size());
-        // Look up a word that is in just one webpage
+    }
+    @Test
+    void lookUpWordWithOneResult() {
         assertEquals(1, invertedIndex.getPages("selfgoverning").size());
+    }
 
+    @Test
+    void lookUpWordWithSixResults() {
+        assertEquals(6, invertedIndex.getPages("the").size());
     }
 }
