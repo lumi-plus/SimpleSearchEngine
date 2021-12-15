@@ -28,10 +28,10 @@ public class TF extends RankingAlgorithm {
     }
     
     /**
-     * maps the score calculated in compmuteFrequency to a web page
+     * maps the score calculated in computeFrequency to a web page
      * @param pages set containing all web pages consisting of url, title and content
      * @param fullQuery query as it was entered in the search engine including "OR" and capital letters
-     * @return  
+     * @return the score mapped to each web page
      */
     @Override
     public Map<WebPage, Double> rank(Set<WebPage> pages, String fullQuery) {
