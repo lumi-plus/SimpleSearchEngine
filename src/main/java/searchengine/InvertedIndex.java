@@ -8,9 +8,8 @@ import java.util.Set;
 
 public class InvertedIndex {
     private Map<String, Set<WebPage>> invertedIndex;
-
+    
     public InvertedIndex(List<WebPage> pages) {
-        // invertedIndex = new TreeMap<>();
         invertedIndex = new HashMap<>();
         for(WebPage page : pages) {
             List<String> content = page.getContent();

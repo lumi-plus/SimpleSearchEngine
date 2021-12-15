@@ -1,6 +1,7 @@
 package searchengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
 
@@ -34,6 +35,14 @@ public class FileReaderTest {
     @Test
     public void testGetPages() {
         int size = fileReader.getPages().size();
+        var a = fileReader.getPages();
+        assertEquals("United States", a.get(0).getTitle());
+        assertEquals("Denmark", a.get(1).getTitle());
+        assertEquals("Japan", a.get(2).getTitle());
+        assertEquals("Copenhagen", a.get(3).getTitle());
+        assertEquals("University of Copenhagen", a.get(4).getTitle());
+        assertEquals("IT University of Copenhagen", a.get(5).getTitle());
+        assertNotEquals("anything other than Japan", a.get(2).getTitle());
         assertEquals(6, size);
     }
 
