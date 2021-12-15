@@ -15,7 +15,6 @@ public class QueryHandler {
 
     public Set<WebPage> getSearchResults(String fullQuery) {
         String[] queries = fullQuery.split("%20OR%20");
-        System.out.println("query_ "+fullQuery);
         Set<WebPage> searchResults = new HashSet<>();
         for (String query : queries) {
             List<List<WebPage>> responses = new ArrayList<>();
@@ -41,15 +40,6 @@ public class QueryHandler {
                 }
             }
             Collections.addAll(searchResults, result.toArray(new WebPage[0]));
-            // List<WebPage> tmp = new ArrayList<>(allResponses);
-            // for (List<WebPage> response : responses) {
-            //     for (WebPage page : allResponses) {
-            //         if (!response.contains(page)) {
-            //             tmp.remove(page);
-            //         }
-            //     }
-            // }
-            // Collections.addAll(searchResults, tmp.toArray(new WebPage[0]));
         }
         System.out.println("size: "+searchResults.size());
         return searchResults;

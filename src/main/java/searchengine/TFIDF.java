@@ -1,16 +1,9 @@
 package searchengine;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TFIDF extends TF {
     private InvertedIndex invertedIndex;
@@ -20,6 +13,7 @@ public class TFIDF extends TF {
         this.invertedIndex = invertedIndex;
     }
 
+<<<<<<< HEAD
     @Override
     public List<WebPage> rank(Set<WebPage> pages, String fullQuery) {
         String[] queries = fullQuery.split("%20OR%20");
@@ -71,6 +65,8 @@ public class TFIDF extends TF {
     //     return count / document.size();
     // }
 
+=======
+>>>>>>> 794aa614d4727d0cc3bc04eda1228a138f1c7f2b
     public double inverseDocumentFrequency(String term, Set<WebPage> documents) {
         List<Set<WebPage>> allResponses = new ArrayList<>();
         Set<WebPage> pages = new HashSet<>();
@@ -91,14 +87,17 @@ public class TFIDF extends TF {
                 }
             }
         }
+<<<<<<< HEAD
         return Math.log10((double) documents.size() / result.size() +1);
+=======
+        return Math.log10((double) documents.size() / result.size()+1);
+>>>>>>> 794aa614d4727d0cc3bc04eda1228a138f1c7f2b
     }
 
     @Override
     public double computeFrequency(String term, WebPage document, Set<WebPage> documents) {
         double tf = super.termFrequency(term, document.getContent());
         double idf = inverseDocumentFrequency(term, documents);
-        // System.out.println(document.getTitle() + ", tfidf: " + tf*idf);
         return tf * idf;
     }
 

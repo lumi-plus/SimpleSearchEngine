@@ -1,10 +1,8 @@
 package searchengine;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +38,7 @@ public class TF extends RankAlgoritm {
         return sortRanking(rankings);
     }
 
+    @Override
     public List<WebPage> sortRanking(Map<WebPage, Double> map) {
         Map<WebPage, Double> sortedMap = map.entrySet().stream()
                 .sorted(Entry.comparingByValue(Comparator.reverseOrder()))
@@ -60,20 +59,11 @@ public class TF extends RankAlgoritm {
                 }
             }
         }
-        // List<String> terms = new ArrayList<>();
-        // Collections.addAll(terms, term.split("%20"));
-        // for (String word : document) {
-        // if (terms.contains(word)) {
-        // count++;
-        // }
-        // }
         return count / document.size();
     }
 
     public double computeFrequency(String term, WebPage document, Set<WebPage> documents) {
-        double tf = termFrequency(term, document.getContent());
-
-        return tf;
+        return termFrequency(term, document.getContent());
     }
 
 }
