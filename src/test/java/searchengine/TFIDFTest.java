@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeAll;
@@ -31,7 +32,9 @@ public class TFIDFTest {
     public void idf() {
         String query = "usa%20OR%20the";
         Set<WebPage> documents = queryHandler.getSearchResults(query);
-        Set<WebPage> usa = invertedIndex.getPages("usa");
+        // Map<WebPage, Double> rankMap = rankingAlgorithm.rank(documents, query);
+        // WebPage usa = (WebPage) queryHandler.getSearchResults("usa").toArray()[0];
+        // double rank = rankMap.get(usa);
         double rank = rankingAlgorithm.inverseDocumentFrequency("usa", documents);
         assertEquals(Math.log10(6/2), rank);
     }

@@ -33,7 +33,7 @@ public class TFIDF extends TF {
                 }
             }
         }
-        return Math.log10((double) documents.size() / result.size()+1);
+        return Math.log10((double) documents.size() / (result.size()+1));
     }
 
     @Override

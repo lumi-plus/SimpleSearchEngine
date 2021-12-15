@@ -35,7 +35,7 @@ public class TF extends RankingAlgorithm {
                 rankings.put(page, score);
             }
         }
-        return rankings
+        return rankings;
     }
 
     @Override
