@@ -12,8 +12,7 @@ public class QueryHandlerTest {
     private QueryHandler queryHandler;
     private InvertedIndex invertedIndex;
     private FileReader  fileReader;
-    private TFIDF tfidf;
-    // what is difference between static and non static import?
+    
     @BeforeAll
     public void setup(){
         try{

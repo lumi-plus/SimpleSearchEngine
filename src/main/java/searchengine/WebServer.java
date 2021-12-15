@@ -15,25 +15,25 @@ public class WebServer {
     private static final int BACKLOG = 0;
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    private HttpServer server;
+    private HttpServer httpServer;
 
     public WebServer(int port, String filename) throws IOException {
         System.out.println("filename: " + filename);
         FileReader fileReader = new FileReader(filename);
         InvertedIndex invertedIndex = new InvertedIndex(fileReader.getPages());
         QueryHandler queryHandler = new QueryHandler(invertedIndex);
-        RankAlgoritm rankAlgoritm = new TF(invertedIndex);
-        SearchEngine searchEngine = new SearchEngine(this, invertedIndex, queryHandler, rankAlgoritm);
-        server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
-        server.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
-        server.createContext("/search", io -> searchEngine.search(io));
-        server.createContext(
+        RankAlgoritm rankAlgoritm = new TFIDF(invertedIndex);
+        SearchEngine searchEngine = new SearchEngine(this, queryHandler, rankAlgoritm);
+        httpServer = HttpServer.create(new InetSocketAddress(port), BACKLOG);
+        httpServer.createContext("/", io -> respond(io, 200, "text/html", fileReader.getFile("web/index.html")));
+        httpServer.createContext("/search", searchEngine::search);
+        httpServer.createContext(
                 "/favicon.ico", io -> respond(io, 200, "image/x-icon", fileReader.getFile("web/favicon.ico")));
-        server.createContext(
+        httpServer.createContext(
                 "/code.js", io -> respond(io, 200, "application/javascript", fileReader.getFile("web/code.js")));
-        server.createContext(
+        httpServer.createContext(
                 "/style.css", io -> respond(io, 200, "text/css", fileReader.getFile("web/style.css")));
-        server.start();
+        httpServer.start();
         String msg = " WebServer running on http://localhost:" + port + " ";
         System.out.println("╭" + "─".repeat(msg.length()) + "╮");
         System.out.println("│" + msg + "│");
@@ -53,8 +53,8 @@ public class WebServer {
         }
     }
 
-    public HttpServer getServer() {
-        return server;
+    public HttpServer getHttpServer() {
+        return httpServer;
     }
 
     public static void main(final String... args) throws IOException {
