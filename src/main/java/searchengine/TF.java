@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class TF extends RankAlgoritm {
+public class TF extends RankingAlgorithm {
     private InvertedIndex invertedIndex;
 
     public TF(InvertedIndex invertedIndex) {
@@ -62,7 +62,8 @@ public class TF extends RankAlgoritm {
         return count / document.size();
     }
 
-    public double computeFrequency(String term, WebPage document, Set<WebPage> documents) {
+    @Override
+    public double computeRank(String term, WebPage document, Set<WebPage> documents) {
         return termFrequency(term, document.getContent());
     }
 

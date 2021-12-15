@@ -13,12 +13,12 @@ public class FileReader {
     public FileReader(String filename) throws IOException {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
-            var firstIndex = 0;
+            int firstIndex = 0;
             for (int i = 1; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("*PAGE")) {
                     String url = lines.get(firstIndex).substring("*PAGE:".length());
                     String title = lines.get(firstIndex + 1);
-                    List<String> content = lines.subList(firstIndex + 2, i + 1);
+                    List<String> content = lines.subList(firstIndex + 2, i);
                     if (!(title.isBlank() && content.isEmpty())) {
                         pages.add(new WebPage(url, title, content));
                         firstIndex = i;

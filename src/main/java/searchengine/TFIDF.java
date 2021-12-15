@@ -37,7 +37,7 @@ public class TFIDF extends TF {
     }
 
     @Override
-    public double computeFrequency(String term, WebPage document, Set<WebPage> documents) {
+    public double computeRank(String term, WebPage document, Set<WebPage> documents) {
         double tf = super.termFrequency(term, document.getContent());
         double idf = inverseDocumentFrequency(term, documents);
         return tf * idf;
