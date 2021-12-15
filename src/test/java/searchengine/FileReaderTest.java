@@ -1,9 +1,9 @@
 package searchengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -13,37 +13,53 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 @TestInstance(Lifecycle.PER_CLASS)
 public class FileReaderTest {
     private FileReader fileReader;
+    private List<WebPage> pages;
 
     @BeforeAll
     public void setUp() {
         try {
-            // var filename = "data/test-file.txt";
-            // String filename = Files.readString(Paths.get("config.txt")).strip();
             fileReader = new FileReader("data/enwiki-tiny.txt");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        pages = fileReader.getPages();
     }
 
-    // @Test
-    // public void testGetFile() {
-    // assertno
-    // assertNotNull(fileReader.getFile("enwiki-tiny.txt"));
-    // // assertNull(fileReader.getFile("inappropriate/filepath"));
-    // }
-
     @Test
-    public void testGetPages() {
+    public void testSizeOfGetPages() {
         int size = fileReader.getPages().size();
-        var a = fileReader.getPages();
-        assertEquals("United States", a.get(0).getTitle());
-        assertEquals("Denmark", a.get(1).getTitle());
-        assertEquals("Japan", a.get(2).getTitle());
-        assertEquals("Copenhagen", a.get(3).getTitle());
-        assertEquals("University of Copenhagen", a.get(4).getTitle());
-        assertEquals("IT University of Copenhagen", a.get(5).getTitle());
-        assertNotEquals("anything other than Japan", a.get(2).getTitle());
         assertEquals(6, size);
     }
 
+    @Test
+    public void testOrderOfGetPages() {
+        assertEquals("United States", pages.get(0).getTitle());
+        assertEquals("Denmark", pages.get(1).getTitle());
+        assertEquals("Japan", pages.get(2).getTitle());
+        assertEquals("Copenhagen", pages.get(3).getTitle());
+        assertEquals("University of Copenhagen", pages.get(4).getTitle());
+        assertEquals("IT University of Copenhagen", pages.get(5).getTitle());
+    }
+
+    @Test
+    public void testSizeOfContentOfWebPage() {
+        WebPage USA = pages.get(0);
+        int size = USA.getContent().size();
+        assertEquals(157, size);
+    }
+
+    @Test
+    public void testFirstWordOfContentOfWebPage() {
+        WebPage USA = pages.get(0);
+        List<String> content = USA.getContent();
+        assertEquals("the", content.get(0));
+    }
+
+    @Test
+    public void testLastWordOfContentOfWebPage() {
+        WebPage USA = pages.get(0);
+        List<String> content = USA.getContent();
+        assertEquals("wildlife", content.get(content.size() - 1));
+    }
 }

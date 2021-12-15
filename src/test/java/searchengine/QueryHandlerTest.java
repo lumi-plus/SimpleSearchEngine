@@ -60,5 +60,4 @@ public class QueryHandlerTest {
         int size = queryHandler.getSearchResults("Country%20usa%20OR%20listeNidnmrk%20dnm").size();
         assertEquals(2, size);
     }
-
 }

@@ -6,14 +6,27 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * class responsible for reading the files in the database
+ * 
+ * @author skje, lmig, mers, davv
+ * @version 2021.12.15
+ */
 public class FileReader {
+    //contains all web pages consisting of url, title, content
     private List<WebPage> pages = new ArrayList<>();
 
+    /**
+     * creates a file reader that goes through all the files in the database and adds web pages 
+     * based on the files to ArrayList pages
+     * 
+     * @param filename name of the file from the database which is being read
+     * @throws IOException
+     */
     public FileReader(String filename) throws IOException {
         try {
             List<String> lines = Files.readAllLines(Paths.get(filename));
-            var firstIndex = 0;
+            int firstIndex = 0;
             for (int i = 1; i < lines.size(); i++) {
                 if (lines.get(i).startsWith("*PAGE")) {
                     String url = lines.get(firstIndex).substring("*PAGE:".length());
@@ -35,9 +48,11 @@ public class FileReader {
             e.printStackTrace();
         }
     }
-
+    
     /**
-     * calls readAllBytes method and returns an array of bytes
+     * 
+     * @param filename name of the file from the database which is being read
+     * @return Array of bytes
      */
     public byte[] getFile(String filename) {
         try {
@@ -49,12 +64,10 @@ public class FileReader {
     }
 
     /**
-     * returns the list of Strings "pages"
-     * 
-     * @return
+     * get the list containing all web pages
+     * @return ArrayList with all files in webpage format with url, title and content
      */
     public List<WebPage> getPages() {
-        System.out.println("Total count all pages in file: " + pages.size());
         return pages;
     }
 

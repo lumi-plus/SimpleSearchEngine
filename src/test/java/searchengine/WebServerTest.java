@@ -1,4 +1,3 @@
-
 package searchengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,6 +11,8 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Random;
+
+import com.sun.net.httpserver.HttpServer;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

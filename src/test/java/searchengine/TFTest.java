@@ -82,7 +82,7 @@ public class TFTest {
     }
 
     @Test
-    public void computeFrequencyTest() {
+    public void computeRankTest() {
         TF tf = new TF(this.invertedIndex);
         String term = "usa";
         Set<WebPage> pages = this.invertedIndex.getPages("usa");
@@ -91,7 +91,7 @@ public class TFTest {
         List<String> content = document.getContent();
         int size = content.size();
         double expectedFrequency = 1.0 / size;
-        double actualFrequency = tf.computeFrequency(term, document, pages);
+        double actualFrequency = tf.computeRank(term, document, pages);
         assertEquals(expectedFrequency, actualFrequency);
 
     }
@@ -104,7 +104,7 @@ public class TFTest {
         Set<WebPage> pages = this.invertedIndex.getPages(trueQuery);
         var a = pages.toArray();
         WebPage document = (WebPage) a[0];
-        var x = tf.computeFrequency(falseQuery, document, pages);
+        var x = tf.computeRank(falseQuery, document, pages);
         assertEquals(0, x);
     }
 
