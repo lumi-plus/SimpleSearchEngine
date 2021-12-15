@@ -8,29 +8,40 @@ import java.util.Map;
 import java.util.Set;
 
 import com.sun.net.httpserver.HttpExchange;
+
 /**
- * This class is the link between the server and different search components. It ties all the classes together.
+ * This class is the link between the server and different search components. It
+ * ties all the classes together.
+ * 
  * @author skje, lmig, mers, davv
  * @version 2021.12.15
  */
 public class SearchEngine {
-    //
     private WebServer server;
+<<<<<<< HEAD
     //maps content to a given word
+=======
+    // maps content to a given word
+>>>>>>> 57cbeab62fcbdaeb77e362fb054cf6e08cca3b53
     private InvertedIndex invertedIndex;
-    //converts searches into refined queries
+    // converts searches into refined queries
     private QueryHandler queryHandler;
+<<<<<<< HEAD
     //sorts search results based on a score
+=======
+    // sorts search results based on a score
+>>>>>>> 57cbeab62fcbdaeb77e362fb054cf6e08cca3b53
     private RankingAlgorithm rankingAlgorithm;
     //
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
     /**
      * creates a SearchEngine object
-     * @param server web server
+     * 
+     * @param server        web server
      * @param invertedIndex maps content to a given word
-     * @param queryHandler converts searches into refined queries
-     * @param rankAlgoritm sorts search results based on a score
+     * @param queryHandler  converts searches into refined queries
+     * @param rankAlgoritm  sorts search results based on a score
      */
     public SearchEngine(WebServer server, QueryHandler queryHandler,
             RankingAlgorithm rankingAlgorithm) {
@@ -40,9 +51,12 @@ public class SearchEngine {
     }
 
     /**
-     * creates a connection between the server and the Java code to search for a given term
-     * responsible for giving the server the requested result of a query as a byte array, 
+     * creates a connection between the server and the Java code to search for a
+     * given term
+     * responsible for giving the server the requested result of a query as a byte
+     * array,
      * the server then responds to this request
+     * 
      * @param io HttpExchange
      */
     public void search(HttpExchange io) {
@@ -57,6 +71,7 @@ public class SearchEngine {
 
     /**
      * creates a list of strings consisting of the url and title of the web pages
+     * 
      * @param pages contains all web pages consisting of url, title and content
      * @return list of strings consisting of the url and title
      */
