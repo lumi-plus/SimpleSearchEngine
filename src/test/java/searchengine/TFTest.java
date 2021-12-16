@@ -29,7 +29,7 @@ public class TFTest {
     }
 
     @Test
-    public void termFrequencyTest() {
+    void termFrequencyTest() {
         TF tf = new TF(this.invertedIndex);
         String term = "usa";
         Set<WebPage> pages = this.invertedIndex.getPages("usa");
@@ -43,7 +43,7 @@ public class TFTest {
     }
 
     @Test
-    public void termFrequencyTest2() {
+    void termFrequencyTest2() {
         TF tf = new TF(this.invertedIndex);
         String term = "federal";
         Set<WebPage> pages = this.invertedIndex.getPages(term);
@@ -58,7 +58,7 @@ public class TFTest {
     }
 
     @Test
-    public void rankTest() {
+    void rankTest() {
         TF tf = new TF(this.invertedIndex);
         String fullQuery = "denmark";
         Set<WebPage> pages = this.invertedIndex.getPages(fullQuery);
@@ -70,7 +70,7 @@ public class TFTest {
     }
 
     @Test
-    public void rankTest2() {
+    void rankTest2() {
         TF tf = new TF(this.invertedIndex);
         String fullQuery = "denmarkn";
         Set<WebPage> pages = this.invertedIndex.getPages(fullQuery);
@@ -82,7 +82,7 @@ public class TFTest {
     }
 
     @Test
-    public void computeRankTest() {
+    void computeRankTest() {
         TF tf = new TF(this.invertedIndex);
         String term = "usa";
         Set<WebPage> pages = this.invertedIndex.getPages("usa");
@@ -97,7 +97,7 @@ public class TFTest {
     }
 
     @Test
-    public void rankTest3() {
+    void rankTest3() {
         TF tf = new TF(this.invertedIndex);
         String falseQuery = "false";
         String trueQuery = "usa";
@@ -109,7 +109,7 @@ public class TFTest {
     }
 
     @Test
-    public void rankTest4() {
+    void rankTest4() {
         TF tf = new TF(this.invertedIndex);
         String falseQuery = "false";
         String trueQuery = "usa";
@@ -119,7 +119,7 @@ public class TFTest {
     }
 
     @Test
-    public void rankTest5() {
+    void rankTest5() {
         TF tf = new TF(this.invertedIndex);
         QueryHandler queryHandler = new QueryHandler(this.invertedIndex);
         String fullQuery = "usa%20OR%20usa";
@@ -131,7 +131,7 @@ public class TFTest {
     }
 
     @Test
-    public void rankTest6() {
+    void rankTest6() {
         TF tf = new TF(this.invertedIndex);
         QueryHandler queryHandler = new QueryHandler(this.invertedIndex);
         String fullQuery = "empty%20OR%20false";

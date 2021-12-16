@@ -12,14 +12,14 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class TFIDFTest {
+class TFIDFTest {
     private InvertedIndex invertedIndex;
     private List<WebPage> pages;
     private TFIDF rankingAlgorithm;
     private QueryHandler queryHandler;
 
     @BeforeAll
-    public void setup() throws IOException {
+    void setup() throws IOException {
         FileReader fileReader = new FileReader("data/enwiki-tiny.txt");
         pages = fileReader.getPages();
         invertedIndex = new InvertedIndex(pages);
@@ -28,7 +28,7 @@ public class TFIDFTest {
     }
 
     @Test
-    public void oneOutOfSixIDF() {
+    void oneOutOfSixIDF() {
         String query = "usa%20OR%20the";
         Set<WebPage> documents = queryHandler.getSearchResults(query);
         double rank = rankingAlgorithm.inverseDocumentFrequency("usa", documents);
@@ -37,7 +37,7 @@ public class TFIDFTest {
     }
 
     @Test
-    public void twoOutOfSixIDF() {
+    void twoOutOfSixIDF() {
         String query = "university%20OR%20the";
         Set<WebPage> documents = queryHandler.getSearchResults(query);
         double rank = rankingAlgorithm.inverseDocumentFrequency("university", documents);
@@ -46,7 +46,7 @@ public class TFIDFTest {
     }
 
     @Test
-    public void sixOutOfSixIDF() {
+    void sixOutOfSixIDF() {
         String query = "the";
         Set<WebPage> documents = queryHandler.getSearchResults(query);
         double rank = rankingAlgorithm.inverseDocumentFrequency("the", documents);

@@ -142,4 +142,3 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,windows
 .vscode/settings.json
-src/test/java/searchengine/WebServerTest.java

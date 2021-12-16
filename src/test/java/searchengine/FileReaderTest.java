@@ -11,7 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class FileReaderTest {
+class FileReaderTest {
     private FileReader fileReader;
     private List<WebPage> pages;
 
@@ -26,14 +26,16 @@ public class FileReaderTest {
         pages = fileReader.getPages();
     }
 
+
+
     @Test
-    public void testSizeOfGetPages() {
+    void testSizeOfGetPages() {
         int size = fileReader.getPages().size();
         assertEquals(6, size);
     }
 
     @Test
-    public void testOrderOfGetPages() {
+    void testOrderOfGetPages() {
         assertEquals("United States", pages.get(0).getTitle());
         assertEquals("Denmark", pages.get(1).getTitle());
         assertEquals("Japan", pages.get(2).getTitle());
@@ -43,21 +45,21 @@ public class FileReaderTest {
     }
 
     @Test
-    public void testSizeOfContentOfWebPage() {
+    void testSizeOfContentOfWebPage() {
         WebPage USA = pages.get(0);
         int size = USA.getContent().size();
         assertEquals(157, size);
     }
 
     @Test
-    public void testFirstWordOfContentOfWebPage() {
+    void testFirstWordOfContentOfWebPage() {
         WebPage USA = pages.get(0);
         List<String> content = USA.getContent();
         assertEquals("the", content.get(0));
     }
 
     @Test
-    public void testLastWordOfContentOfWebPage() {
+    void testLastWordOfContentOfWebPage() {
         WebPage USA = pages.get(0);
         List<String> content = USA.getContent();
         assertEquals("wildlife", content.get(content.size() - 1));
