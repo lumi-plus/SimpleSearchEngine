@@ -1,8 +1,7 @@
 package searchengine;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
@@ -30,11 +29,24 @@ class FileReaderTest {
     }
 
     @Test
+    void setupFileReaderWithIncorrectFile() {
+        FileReader faultyFileReader = null;
+        try {
+            faultyFileReader = new FileReader("data/not-a-file.txt");
+        } catch (IOException e) {
+            assertNull(faultyFileReader);
+        }
+    }
+
+    private FileReader FileReader(String string) {
+        return null;
+    }
+
+    @Test
     void testGetFile() {
-        byte[] emptyFile = fileReader.getFile("not a filename");
+        byte[] emptyFile = fileReader.getFile("not-a-filename");
         byte[] nonEmptyFile = fileReader.getFile("web/index.html");
         assertEquals(0, emptyFile.length);
-        assertNotNull(nonEmptyFile);
         assertTrue(nonEmptyFile.length>0);
     }
 
