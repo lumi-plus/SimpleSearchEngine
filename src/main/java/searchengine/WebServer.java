@@ -21,7 +21,7 @@ public class WebServer {
     //
     private static final Charset CHARSET = StandardCharsets.UTF_8;
 
-    private HttpServer httpServer;
+    HttpServer httpServer;
 
     /**
      * 

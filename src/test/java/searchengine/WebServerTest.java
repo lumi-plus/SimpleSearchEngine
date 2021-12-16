@@ -1,8 +1,6 @@
 package searchengine;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import java.io.IOException;
 import java.net.BindException;
@@ -12,12 +10,11 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.util.Random;
 
-import com.sun.net.httpserver.HttpServer;
-
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class WebServerTest {
@@ -62,15 +59,15 @@ class WebServerTest {
     // }
 
     // private String httpGet(String url) {
-    // var uri = URI.create(url);
-    // var client = HttpClient.newHttpClient();
-    // var request = HttpRequest.newBuilder().uri(uri).GET().build();
-    // try {
-    // return client.send(request, BodyHandlers.ofString()).body();
-    // } catch (IOException | InterruptedException e) {
-    // e.printStackTrace();
-    // return null;
-    // }
+    //     var uri = URI.create(url);
+    //     var client = HttpClient.newHttpClient();
+    //     var request = HttpRequest.newBuilder().uri(uri).GET().build();
+    //     try {
+    //         return client.send(request, BodyHandlers.ofString()).body();
+    //     } catch (IOException | InterruptedException e) {
+    //         e.printStackTrace();
+    //         return null;
+    //     }
     // }
 
     @Test
