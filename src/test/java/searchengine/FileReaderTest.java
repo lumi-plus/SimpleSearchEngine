@@ -18,28 +18,19 @@ class FileReaderTest {
     private List<WebPage> pages;
 
     @BeforeAll
-    public void setup() {
-        try {
-            fileReader = new FileReader("data/enwiki-tiny.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    public void setup() throws IOException {
+        fileReader = new FileReader("data/enwiki-tiny.txt");
         pages = fileReader.getPages();
     }
 
     @Test
-    void setupFileReaderWithIncorrectFile() {
+    void setupFaulyFileReader() {
         FileReader faultyFileReader = null;
         try {
             faultyFileReader = new FileReader("data/not-a-file.txt");
         } catch (IOException e) {
             assertNull(faultyFileReader);
         }
-    }
-
-    private FileReader FileReader(String string) {
-        return null;
     }
 
     @Test
