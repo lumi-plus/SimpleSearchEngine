@@ -1,6 +1,9 @@
 package searchengine;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,7 +19,7 @@ class FileReaderTest {
     private List<WebPage> pages;
 
     @BeforeAll
-    public void setUp() {
+    public void setup() {
         try {
             fileReader = new FileReader("data/enwiki-tiny.txt");
         } catch (IOException e) {
@@ -26,7 +29,14 @@ class FileReaderTest {
         pages = fileReader.getPages();
     }
 
-
+    @Test
+    void testGetFile() {
+        byte[] emptyFile = fileReader.getFile("not a filename");
+        byte[] nonEmptyFile = fileReader.getFile("web/index.html");
+        assertEquals(0, emptyFile.length);
+        assertNotNull(nonEmptyFile);
+        assertTrue(nonEmptyFile.length>0);
+    }
 
     @Test
     void testSizeOfGetPages() {

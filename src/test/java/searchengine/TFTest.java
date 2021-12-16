@@ -12,7 +12,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class TFTest {
+class TFTest {
     private InvertedIndex invertedIndex;
 
     private FileReader fileReader;

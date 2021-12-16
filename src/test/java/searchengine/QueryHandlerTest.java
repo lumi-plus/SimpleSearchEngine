@@ -14,7 +14,7 @@ class QueryHandlerTest {
     private FileReader fileReader;
 
     @BeforeAll
-    void setup() {
+    public void setup() {
         try {
             fileReader = new FileReader("data/enwiki-tiny.txt");
             // fileReader = new FileReader("data/test-file.txt");

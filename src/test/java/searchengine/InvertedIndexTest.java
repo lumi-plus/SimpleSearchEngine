@@ -11,7 +11,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class InvertedIndexTest {
+class InvertedIndexTest {
     private List<WebPage> pages;
     private InvertedIndex invertedIndex;
     private FileReader fileReader;
@@ -24,17 +24,17 @@ public class InvertedIndexTest {
     }
 
     @Test
-    public void lookUpWordWithZeroResults() {
+    void lookUpWordWithZeroResults() {
         assertEquals(0, invertedIndex.getPages("pingu").size());
     }
 
     @Test
-    public void lookUpWordWithOneResult() {
+    void lookUpWordWithOneResult() {
         assertEquals(1, invertedIndex.getPages("selfgoverning").size());
     }
     
     @Test
-    public void lookUpWordWithSixResults() {
+    void lookUpWordWithSixResults() {
         assertEquals(6, invertedIndex.getPages("the").size());
     }
 }

@@ -19,7 +19,7 @@ class TFIDFTest {
     private QueryHandler queryHandler;
 
     @BeforeAll
-    void setup() throws IOException {
+    public void setup() throws IOException {
         FileReader fileReader = new FileReader("data/enwiki-tiny.txt");
         pages = fileReader.getPages();
         invertedIndex = new InvertedIndex(pages);
