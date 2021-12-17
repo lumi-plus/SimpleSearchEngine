@@ -1,7 +1,10 @@
 package searchengine;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,115 +17,59 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 @TestInstance(Lifecycle.PER_CLASS)
 class TFTest {
     private InvertedIndex invertedIndex;
-
+    private RankingAlgorithm tf;
     private FileReader fileReader;
+    private QueryHandler queryHandler;
 
     @BeforeAll
     public void setup() {
         try {
             fileReader = new FileReader("data/enwiki-tiny.txt");
-            this.invertedIndex = new InvertedIndex(fileReader.getPages());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+        invertedIndex = new InvertedIndex(fileReader.getPages());
+        tf = new TF(invertedIndex);
+        queryHandler = new QueryHandler(invertedIndex);
     }
 
     @Test
-    void termFrequencyTest() {
-        TF tf = new TF(this.invertedIndex);
+    void findZeroTerms() {
+        String term = "nohitter";
+        Set<WebPage> pages = invertedIndex.getPages("usa");
+        WebPage document = (WebPage) pages.toArray()[0];
+        double actualRank = tf.computeRank(term, document, pages);
+        assertEquals(0, actualRank);
+    }
+
+
+    @Test
+    void findOneTerm() {
         String term = "usa";
-        Set<WebPage> pages = this.invertedIndex.getPages("usa");
-        var a = pages.toArray();
-        WebPage document = (WebPage) a[0];
+        Set<WebPage> pages = invertedIndex.getPages("usa");
+        WebPage document = (WebPage) pages.toArray()[0];
         List<String> content = document.getContent();
         int size = content.size();
         double expectedFrequency = 1.0 / size;
-        double actualFrequency = tf.termFrequency(term, content);
-        assertEquals(expectedFrequency, actualFrequency);
+        double actualRank = tf.computeRank(term, document, pages);
+        assertEquals(expectedFrequency, actualRank);
     }
 
     @Test
-    void termFrequencyTest2() {
-        TF tf = new TF(this.invertedIndex);
+    void findThreeTerms() {
         String term = "federal";
-        Set<WebPage> pages = this.invertedIndex.getPages(term);
-        var a = pages.toArray();
-        WebPage document = (WebPage) a[0];
+        Set<WebPage> pages = invertedIndex.getPages(term);
+        WebPage document = (WebPage) pages.toArray()[0];
         List<String> content = document.getContent();
         int size = content.size();
         double expectedFrequency = 3.0 / size;
-        double actualFrequency = tf.termFrequency(term, content);
-        assertEquals(expectedFrequency, actualFrequency);
-
-    }
-
-    @Test
-    void rankTest() {
-        TF tf = new TF(this.invertedIndex);
-        String fullQuery = "denmark";
-        Set<WebPage> pages = this.invertedIndex.getPages(fullQuery);
-        Map<WebPage, Double> ranked = tf.rank(pages, fullQuery);
-        String actualTitle = tf.sortRanking(ranked).get(0).getTitle();
-        String expectedTitle = "Denmark";
-        assertEquals(expectedTitle, actualTitle);
-
-    }
-
-    @Test
-    void rankTest2() {
-        TF tf = new TF(this.invertedIndex);
-        String fullQuery = "denmarkn";
-        Set<WebPage> pages = this.invertedIndex.getPages(fullQuery);
-        Map<WebPage, Double> ranked = tf.rank(pages, fullQuery);
-        String actualTitle = tf.sortRanking(ranked).get(0).getTitle();
-        String expectedTitle = "Denmark";
-        assertEquals(expectedTitle, actualTitle);
-
-    }
-
-    @Test
-    void computeRankTest() {
-        TF tf = new TF(this.invertedIndex);
-        String term = "usa";
-        Set<WebPage> pages = this.invertedIndex.getPages("usa");
-        var a = pages.toArray();
-        WebPage document = (WebPage) a[0];
-        List<String> content = document.getContent();
-        int size = content.size();
-        double expectedFrequency = 1.0 / size;
         double actualFrequency = tf.computeRank(term, document, pages);
         assertEquals(expectedFrequency, actualFrequency);
-
     }
 
     @Test
-    void rankTest3() {
-        TF tf = new TF(this.invertedIndex);
-        String falseQuery = "false";
-        String trueQuery = "usa";
-        Set<WebPage> pages = this.invertedIndex.getPages(trueQuery);
-        var a = pages.toArray();
-        WebPage document = (WebPage) a[0];
-        var x = tf.computeRank(falseQuery, document, pages);
-        assertEquals(0, x);
-    }
-
-    @Test
-    void rankTest4() {
-        TF tf = new TF(this.invertedIndex);
-        String falseQuery = "false";
-        String trueQuery = "usa";
-        Set<WebPage> pages = this.invertedIndex.getPages(trueQuery);
-        var x = tf.rank(pages, falseQuery).get(trueQuery);
-        assertEquals(null, x);
-    }
-
-    @Test
-    void rankTest5() {
-        TF tf = new TF(this.invertedIndex);
-        QueryHandler queryHandler = new QueryHandler(this.invertedIndex);
-        String fullQuery = "usa%20OR%20usa";
+    void findHighestRankedPage() {
+        String fullQuery = "america%20OR%20archipelago";
         Set<WebPage> pages = queryHandler.getSearchResults(fullQuery);
         Map<WebPage, Double> ranked = tf.rank(pages, fullQuery);
         String actualTitle = tf.sortRanking(ranked).get(0).getTitle();
@@ -131,15 +78,33 @@ class TFTest {
     }
 
     @Test
-    void rankTest6() {
-        TF tf = new TF(this.invertedIndex);
-        QueryHandler queryHandler = new QueryHandler(this.invertedIndex);
-        String fullQuery = "empty%20OR%20false";
+    void findLowestRankedPage() {
+        String fullQuery = "land";
         Set<WebPage> pages = queryHandler.getSearchResults(fullQuery);
         Map<WebPage, Double> ranked = tf.rank(pages, fullQuery);
-        int actualSize = tf.sortRanking(ranked).size();
-        int expectedSize = 0;
-        assertEquals(expectedSize, actualSize);
+        String actualTitle = tf.sortRanking(ranked).get(pages.size()-1).getTitle();
+        String expectedTitle = "United States";
+        assertEquals(expectedTitle, actualTitle);
+    }
+
+    @Test
+    void rankNonExistingWebPage() {
+        String query = "no-hit-query%20OR%usa";
+        Set<WebPage> documents = queryHandler.getSearchResults(query);
+        Map<WebPage, Double> nonExistingWebPage = tf.rank(documents, "no-hit-query");
+        assertTrue(nonExistingWebPage.isEmpty());
+    }
+
+    @Test
+    void testSortRankings() {
+        Map<WebPage, Double> rankings = new HashMap<>();
+        rankings.put(new WebPage("url", "Denmark", new ArrayList<>()), 2.0);
+        rankings.put(new WebPage("url", "USA", new ArrayList<>()), 1.0);
+        rankings.put(new WebPage("url", "Japan", new ArrayList<>()), 3.0);
+        List<WebPage> sortedPages = tf.sortRanking(rankings);
+        assertEquals("Japan", sortedPages.get(0).getTitle());
+        assertEquals("Denmark", sortedPages.get(1).getTitle());
+        assertEquals("USA", sortedPages.get(2).getTitle());
     }
 
 }

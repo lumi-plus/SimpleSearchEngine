@@ -12,25 +12,30 @@ import java.util.stream.Collectors;
 
 /**
  * class to calculate the term frequency of a query
+ * 
  * @author skje, lmig, mers, davv
  * @version 2021.12.15
  */
 public class TF extends RankingAlgorithm {
-    //the inverted index maps content to a given word
+    // the inverted index maps content to a given word
     private InvertedIndex invertedIndex;
 
     /**
      * constructor for term frequency
+     * 
      * @param invertedIndex maps content to a given word
      */
     public TF(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
     }
-    
+
     /**
      * maps the score calculated in computeFrequency to a web page
-     * @param pages set containing all web pages consisting of url, title and content
-     * @param fullQuery query as it was entered in the search engine including "OR" and capital letters
+     * 
+     * @param pages     set containing all web pages consisting of url, title and
+     *                  content
+     * @param fullQuery query as it was entered in the search engine including "OR"
+     *                  and capital letters
      * @return the score mapped to each web page
      */
     @Override
@@ -54,7 +59,10 @@ public class TF extends RankingAlgorithm {
     }
 
     /**
+     * by courtesy of from the user Vitalii Fedorenko of StackOverflow
+     * https://stackoverflow.com/questions/8119366/sorting-hashmap-by-values
      * sorts the web pages based on their score in descending order
+     * 
      * @param map web page mapped to its score
      * @return ArrayList with web pages sorted by their score
      */
@@ -68,10 +76,13 @@ public class TF extends RankingAlgorithm {
     }
 
     /**
-     * calculates the term frequency by dividing the amount of times the term occurs in a document 
+     * calculates the term frequency by dividing the amount of times the term occurs
+     * in a document
      * and the amount of words in the document
-     * @param term query for which to calculate the frequency
-     * @param document list of strings representing the file in which the search term occurs
+     * 
+     * @param term     query for which to calculate the frequency
+     * @param document list of strings representing the file in which the search
+     *                 term occurs
      * @return the term frequency
      */
     public double termFrequency(String term, List<String> document) {
@@ -91,9 +102,12 @@ public class TF extends RankingAlgorithm {
 
     /**
      * returns the term frequency used to rank the search results
-     * @param term query for which to calculate the frequency
-     * @param document list of strings representing the file in which the search term occurs
-     * @param documents set of web pages in which the search term of the query occurs
+     * 
+     * @param term      query for which to calculate the frequency
+     * @param document  list of strings representing the file in which the search
+     *                  term occurs
+     * @param documents set of web pages in which the search term of the query
+     *                  occurs
      * @return term frequency
      */
     @Override

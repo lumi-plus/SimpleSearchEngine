@@ -26,6 +26,16 @@ class TFIDFTest {
         rankingAlgorithm = new TFIDF(invertedIndex);
         queryHandler = new QueryHandler(invertedIndex);
     }
+    
+    @Test
+    void rankForZeroHits() {
+        String noHitter = "not a query that exist in any document";
+        String query = noHitter+"%20OR%20the";
+        Set<WebPage> documents = queryHandler.getSearchResults(query);
+        double rank = rankingAlgorithm.inverseDocumentFrequency(noHitter, documents);
+        double expected = Math.log10(6.0);
+        assertEquals(expected, rank);
+    }
 
     @Test
     void oneOutOfSixIDF() {
@@ -49,9 +59,20 @@ class TFIDFTest {
     void sixOutOfSixIDF() {
         String query = "the";
         Set<WebPage> documents = queryHandler.getSearchResults(query);
-        double rank = rankingAlgorithm.inverseDocumentFrequency("the", documents);
+        double rank = rankingAlgorithm.inverseDocumentFrequency(query, documents);
         double expected = Math.log10(6.0/7);
         assertEquals(expected, rank);
     }
 
+    @Test
+    void computeRankWorks() {
+        String query = "the";
+        Set<WebPage> documents = queryHandler.getSearchResults(query);
+        WebPage document = (WebPage) documents.toArray()[0];
+        double tf = rankingAlgorithm.termFrequency(query, document.getContent());
+        double idf = rankingAlgorithm.inverseDocumentFrequency(query, documents);
+        double actual = rankingAlgorithm.computeRank(query, document, documents);
+        assertEquals(tf*idf, actual);
+    }
+ 
 }
