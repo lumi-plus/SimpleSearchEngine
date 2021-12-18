@@ -10,7 +10,7 @@ import java.util.Set;
 import com.sun.net.httpserver.HttpExchange;
 
 /**
- * This class is the link between the server and different search components. It
+ * class is the link between the server and different search components. It
  * ties all the classes together.
  * 
  * @author skje, lmig, mers, davv
@@ -18,8 +18,6 @@ import com.sun.net.httpserver.HttpExchange;
  */
 public class SearchEngine {
     private WebServer server;
-    // maps content to a given word
-    private InvertedIndex invertedIndex;
     // converts searches into refined queries
     private QueryHandler queryHandler;
     // sorts search results based on a score
