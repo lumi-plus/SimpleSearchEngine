@@ -1,5 +1,4 @@
 data
-*.txt
 .vscode
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,gradle,visualstudiocode
