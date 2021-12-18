@@ -72,9 +72,9 @@ public class WebServer {
         }
     }
 
-    public HttpServer getHttpServer() {
-        return httpServer;
-    }
+    // public HttpServer getHttpServer() {
+    //     return httpServer;
+    // }
 
     public static void main(final String... args) throws IOException {
         String filename = Files.readString(Paths.get("config.txt")).strip();

@@ -31,7 +31,6 @@ public class WebServerBenchmark {
 
     @Setup(Level.Trial)
     public void setup() {
-        
         try {
             fileReader = new FileReader(filename);
             var rnd = new Random();
